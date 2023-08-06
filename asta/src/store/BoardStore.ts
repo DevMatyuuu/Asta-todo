@@ -23,11 +23,7 @@ export const useBoardStore = create<BoardState>((set) => ({
   addTaskInput: '',
   getBoard: () => {
   },
-  setBoardState: (board) => {
-    // Function to set the board state and save it to localStorage
-    set({ board });
-    localStorage.setItem('board', JSON.stringify(board));
-  },
+  setBoardState: (board) => set({ board }),
 
   setAddTaskInput: (input: string) => set({ addTaskInput: input }),
 
