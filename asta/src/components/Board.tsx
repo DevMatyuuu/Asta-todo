@@ -10,7 +10,13 @@ function Board() {
 
     useEffect(() => {
         getBoard();
-      }, [getBoard]);
+    
+        // Retrieve the board state from localStorage
+        const savedBoard = localStorage.getItem('board');
+        if (savedBoard) {
+          setBoardState(JSON.parse(savedBoard));
+        }
+      }, [getBoard, setBoardState]);
 
     const handleonDragEnd = (result: DropResult) => {
         const {destination, source, type} = result;
