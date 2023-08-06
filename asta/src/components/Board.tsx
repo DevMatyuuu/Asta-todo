@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
 import { useBoardStore } from '../store/BoardStore';
 import Column from './Column';
 
 function Board() {
-  const [getBoard, board, setBoardState, isloading] = useBoardStore((state) => [
+  const [getBoard, board, setBoardState, loading] = useBoardStore((state) => [
     state.getBoard,
     state.board,
     state.setBoardState,
-    state.isloading,
+    state.loading,
   ]);
 
   useEffect(() => {
@@ -89,7 +89,7 @@ function Board() {
     }
   };
 
-  if (isloading) {
+  if (loading) {
     // Show a loading indicator while the data is being loaded
     return <div>Loading...</div>;
   }
