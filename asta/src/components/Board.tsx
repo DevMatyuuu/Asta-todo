@@ -104,7 +104,7 @@ function Board() {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {board?.columns &&
+              {
                 Array.from(board.columns.values()).map((column, index) => (
                   <Column key={column.id} id={column.id} tasks={column.tasks} index={index} />
                 ))}
