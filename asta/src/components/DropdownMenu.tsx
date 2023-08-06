@@ -8,7 +8,7 @@ import {BsThreeDotsVertical} from 'react-icons/bs'
 import { FaTrash, FaEdit } from 'react-icons/fa'
 import { Tooltip } from '@material-tailwind/react';
 import { useBoardStore } from '../store/BoardStore';
-import { useUpdateTaskStore } from "../store/UpdateTaskStore";
+
 
 
 type DropdownProps = {
@@ -20,7 +20,7 @@ type DropdownProps = {
 
 function DropdownMenu({task, id, onEditClick}: DropdownProps){
   const [deleteTask] = useBoardStore((state) => [state.deleteTask, state.setUpdateTaskInput, state.updateTaskInput, state.updateTask])
-  const openInput = useUpdateTaskStore((state) => state.openInput)
+
   
   return (
     <Menu placement='bottom'>

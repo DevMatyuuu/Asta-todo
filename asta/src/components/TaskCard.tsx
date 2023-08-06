@@ -17,7 +17,7 @@ type TaskCardProps = {
 
 
 function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}: TaskCardProps) {
-  const [isUpdating, closeInput, updatingTaskId, setUpdatingTaskId, openInput] = useUpdateTaskStore((state) => [state.isUpdating, state.closeInput, state.updatingTaskId, state.setUpdatingTaskId, state.openInput])
+  const [closeInput, updatingTaskId, openInput] = useUpdateTaskStore((state) => [state.closeInput, state.updatingTaskId, state.openInput])
   const [setUpdateTaskInput, updateTaskInput ,updateTask] = useBoardStore((state) => [state.setUpdateTaskInput, state.updateTaskInput, state.updateTask])
 
   const isUpdatingSpecificTask = updatingTaskId === task.$id;
