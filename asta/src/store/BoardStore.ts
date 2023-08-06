@@ -30,7 +30,7 @@ export const useBoardStore = create<BoardState>()(
       updateTaskInput: '',
       getBoard: () => {
         // Load the persisted data from LocalStorage (if available)
-        const storedData = localStorage.getItem('board');
+        const storedData = localStorage.getItem('board-store');
         if (storedData) {
           const { columns } = JSON.parse(storedData);
           set({ board: { columns } });
