@@ -6,7 +6,6 @@ interface BoardState {
   board: Board;
   getBoard: () => void;
   setBoardState: (board: Board) => void;
-  saveMigrateTasks: (task: Task, destinationColumnId: ParentType) => void;
   addTaskInput: string;
   setAddTaskInput: (input: string) => void;
   addTask: (task: string, columnId: ParentType) => void;
@@ -103,30 +102,5 @@ export const useBoardStore = create<BoardState>((set) => ({
       };
     });
   },
-  saveMigrateTasks: (task, destinationColumnId) => {
-    set((state) => {
-      const newColumns = new Map(state.board.columns);
-      const sourceColumn = newColumns.get(task.status);
-      const destinationColumn = newColumns.get(destinationColumnId);
-      if (sourceColumn && destinationColumn) {
-        // Remove the task from the source column
-        sourceColumn.tasks = sourceColumn.tasks.filter((t) => t.$id !== task.$id);
-
-        // Add the task to the destination column
-        destinationColumn.tasks.push(task);
-
-        // Update the task's status
-        task.status = destinationColumnId;
-      }
-
-      // Save the updated board state to localStorage or any other persistence mechanism if desired
-      localStorage.setItem('board', JSON.stringify({ columns: newColumns }));
-
-      return {
-        board: {
-          columns: newColumns,
-        },
-      };
-    });
-  },
+  
 }));
