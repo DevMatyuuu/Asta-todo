@@ -5,18 +5,16 @@ import Column from './Column';
 
 
 function Board() {
-    const [getBoard, board, setBoardState,] = useBoardStore((state) => [state.getBoard, state.board, state.setBoardState, state.addTask, state.addTaskInput,]);
+    const [ board, setBoardState,] = useBoardStore((state) => [state.board, state.setBoardState, state.addTask, state.addTaskInput,]);
     
 
     useEffect(() => {
-        getBoard();
-    
-        // Retrieve the board state from localStorage
+        // Retrieve the board state from localStorage on initial mount
         const savedBoard = localStorage.getItem('board');
         if (savedBoard) {
           setBoardState(JSON.parse(savedBoard));
         }
-      }, [getBoard, setBoardState]);
+      }, [setBoardState]);
 
     const handleonDragEnd = (result: DropResult) => {
         const {destination, source, type} = result;
