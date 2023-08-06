@@ -10,7 +10,7 @@ function Board() {
 
     useEffect(() => {
         // Retrieve the board state from localStorage on initial mount
-        const savedBoard = localStorage.getItem('board');
+        const savedBoard = localStorage.getItem('board-storage');
         if (savedBoard) {
           setBoardState(JSON.parse(savedBoard));
         }

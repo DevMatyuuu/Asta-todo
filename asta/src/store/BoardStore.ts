@@ -1,4 +1,5 @@
-import { create } from 'zustand';
+import create from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 
 interface BoardState {
@@ -12,84 +13,92 @@ interface BoardState {
   deleteTask: (taskId: string, id: ParentType) => void;
 }
 
-export const useBoardStore = create<BoardState>((set) => ({
-  board: {
-    columns: new Map<ParentType, Column>([
-      ['To-do', { id: 'To-do', tasks: [] }],
-      ['In-progress', { id: 'In-progress', tasks: [] }],
-      ['Done', { id: 'Done', tasks: [] }],
-    ]),
-  },
-  addTaskInput: '',
-  getBoard: () => {
-  },
-  setBoardState: (board) => {
-    set({ board });
-    localStorage.setItem('board', JSON.stringify(board));
-  },
+export const useBoardStore = create<BoardState>()(
+  persist(
+    // Use 'devtools' middleware for development
+    devtools((set) => ({
+      board: {
+        columns: new Map<ParentType, Column>([
+          ['To-do', { id: 'To-do', tasks: [] }],
+          ['In-progress', { id: 'In-progress', tasks: [] }],
+          ['Done', { id: 'Done', tasks: [] }],
+        ]),
+      },
+      addTaskInput: '',
+      getBoard: () => {
+        // Implement the logic to fetch the board data here if needed
+      },
+      setBoardState: (board) => {
+        set({ board });
+      },
+      setAddTaskInput: (input: string) => set({ addTaskInput: input }),
 
-  setAddTaskInput: (input: string) => set({ addTaskInput: input }),
+      addTask: (task: string, columnId: ParentType) => {
+        set((state) => {
+          const newColumns = new Map(state.board.columns);
+          const column = newColumns.get(columnId);
 
-  addTask: (task: string, columnId: ParentType) => {
-    set((state) => {
-      const newColumns = new Map(state.board.columns);
-      const column = newColumns.get(columnId);
+          if (column) {
+            const $id = uuidv4();
+            const $createdAt = new Date().toISOString();
 
-      if (column) {
-        const $id = uuidv4();
-        const $createdAt = new Date().toISOString();
+            const newTask: Task = {
+              $id,
+              $createdAt,
+              title: task,
+              status: columnId,
+            };
 
-        const newTask: Task = {
-          $id,
-          $createdAt,
-          title: task,
-          status: columnId,
-        };
+            column.tasks.push(newTask);
+          }
 
-        column.tasks.push(newTask);
-      }
+          return {
+            board: {
+              columns: newColumns,
+            },
+          };
+        });
+      },
 
-      return {
-        board: {
-          columns: newColumns,
-        },
-      };
-    });
-  },
+      updateTask: (taskId: string, title: string) => {
+        set((state) => {
+          const newColumns = new Map(state.board.columns);
 
-  updateTask: (taskId: string, title: string) => {
-    set((state) => {
-      const newColumns = new Map(state.board.columns);
+          for (const [, column] of newColumns) {
+            const taskIndex = column.tasks.findIndex((task) => task.$id === taskId);
+            if (taskIndex !== -1) {
+              column.tasks[taskIndex].title = title;
+              break;
+            }
+          }
 
-      for (const [, column] of newColumns) {
-        const taskIndex = column.tasks.findIndex((task) => task.$id === taskId);
-        if (taskIndex !== -1) {
-          column.tasks[taskIndex].title = title;
-          break;
-        }
-      }
+          return {
+            board: {
+              columns: newColumns,
+            },
+          };
+        });
+      },
+      deleteTask: (taskId: string, id: ParentType) => {
+        set((state) => {
+          const newColumns = new Map(state.board.columns);
 
-      return {
-        board: {
-          columns: newColumns,
-        },
-      };
-    });
-  },
-  deleteTask: (taskId: string, id: ParentType) => {
-    set((state) => {
-      const newColumns = new Map(state.board.columns);
+          const column = newColumns.get(id);
+          if (column) {
+            column.tasks = column.tasks.filter((task) => task.$id !== taskId);
+          }
 
-      const column = newColumns.get(id);
-      if (column) {
-        column.tasks = column.tasks.filter((task) => task.$id !== taskId);
-      }
-
-      return {
-        board: {
-          columns: newColumns,
-        },
-      };
-    });
-  },
-}));
+          return {
+            board: {
+              columns: newColumns,
+            },
+          };
+        });
+      },
+    })),
+    {
+      name: 'board-storage', // Name of the local storage key
+      getStorage: () => localStorage, // Use localStorage for persistence
+    }
+  )
+);
