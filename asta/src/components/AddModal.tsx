@@ -23,11 +23,9 @@ function AddModal() {
   const handleAddTask = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!addTaskInput) return;
-
-    // Call the onAddTask function from props to add the task to the Board
     addTask(addTaskInput, modalCategoryTitle);
-    setAddTaskInput(''); // Clear the input after adding the task
-    modalClose(); // Close the modal after adding the task
+    setAddTaskInput('');
+    modalClose(); 
   };  
   return (
     <Transition appear show={isOpen} as={Fragment}>

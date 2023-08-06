@@ -12,7 +12,6 @@ type Column = {
 
 type Task = {
     $id: string;
-    $createdAt: string;
     title: string;
     status: ParentType;
 }
