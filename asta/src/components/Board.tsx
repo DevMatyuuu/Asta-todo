@@ -94,7 +94,7 @@ function Board() {
     return <div>Loading...</div>;
   }
 
-  const columns = board && board.columns instanceof Map ? board.columns : new Map();
+
   return (
     <div>
       <DragDropContext onDragEnd={handleonDragEnd}>
@@ -106,7 +106,7 @@ function Board() {
               ref={provided.innerRef}
             >
               {
-                Array.from(board.columns.values()).map((column, index) => (
+                Array.from(board?.columns?.values() || []).map((column, index) => (
                   <Column key={column.id} id={column.id} tasks={column.tasks} index={index} />
                 ))}
             </div>
