@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import { persist, createJSONStorage} from 'zustand/middleware';
+import { persist, devtools } from 'zustand/middleware';
 
 interface BoardState {
   board: Board;
@@ -16,103 +16,90 @@ interface BoardState {
 }
 
 export const useBoardStore = create<BoardState>()(
-  persist(
-    // persist options
-    (set) => ({
-      board: {
-        columns: new Map<ParentType, Column>([
-          ['To-do', { id: 'To-do', tasks: [] }],
-          ['In-progress', { id: 'In-progress', tasks: [] }],
-          ['Done', { id: 'Done', tasks: [] }],
-        ]),
-      },
-      addTaskInput: '',
-      updateTaskInput: '',
-      getBoard: () => {
-        // Load the persisted data from LocalStorage (if available)
-        const storedData = localStorage.getItem('board-store');
-        if (storedData) {
-          const { columns } = JSON.parse(storedData);
-          set({ board: { columns } });
-        }
-      },
-      setBoardState: (board) => set({ board }),
+  devtools(
+    persist<BoardState>(
+      (set) => ({
+        board: {
+          columns: new Map<ParentType, Column>([
+            ['To-do', { id: 'To-do', tasks: [] }],
+            ['In-progress', { id: 'In-progress', tasks: [] }],
+            ['Done', { id: 'Done', tasks: [] }],
+          ]),
+        },
+        addTaskInput: '',
+        updateTaskInput: '',
+        getBoard: () => {
+          // Optional: Load the persisted data from your server or API instead of LocalStorage
+        },
+        setBoardState: (board) => set({ board }),
 
-      setAddTaskInput: (input: string) => set({ addTaskInput: input }),
+        setAddTaskInput: (input: string) => set({ addTaskInput: input }),
 
-      addTask: (task: string, columnId: ParentType) => {
-        set((state) => {
-          const newColumns = new Map(state.board.columns);
+        addTask: (task: string, columnId: ParentType) => {
+          set((state) => {
+            const newColumns = new Map(state.board.columns);
 
-          const newTask: Task = {
-            $id: uuidv4(),
-            title: task,
-            status: columnId,
-          };
+            const newTask: Task = {
+              $id: uuidv4(),
+              title: task,
+              status: columnId,
+            };
 
-          const column = newColumns.get(columnId);
-          if (column) {
-            column.tasks.push(newTask);
-          }
-
-          // Save the updated board state to localStorage
-          localStorage.setItem('board', JSON.stringify({ columns: newColumns }));
-
-          return {
-            board: {
-              columns: newColumns,
-            },
-          };
-        });
-      },
-      setUpdateTaskInput: (input: string) => set({ updateTaskInput: input }),
-
-      updateTask: (taskId: string, title: string) => {
-        set((state) => {
-          const newColumns = new Map(state.board.columns);
-
-          for (const [, column] of newColumns) {
-            const taskIndex = column.tasks.findIndex((task) => task.$id === taskId);
-            if (taskIndex !== -1) {
-              column.tasks[taskIndex].title = title;
-              break;
+            const column = newColumns.get(columnId);
+            if (column) {
+              column.tasks.push(newTask);
             }
-          }
 
-          // Save the updated board state to localStorage
-          localStorage.setItem('board', JSON.stringify({ columns: newColumns }));
+            return {
+              board: {
+                columns: newColumns,
+              },
+            };
+          });
+        },
+        setUpdateTaskInput: (input: string) => set({ updateTaskInput: input }),
 
-          return {
-            board: {
-              columns: newColumns,
-            },
-          };
-        });
-      },
+        updateTask: (taskId: string, title: string) => {
+          set((state) => {
+            const newColumns = new Map(state.board.columns);
 
-      deleteTask: (taskId: string, columnId: ParentType) => {
-        set((state) => {
-          const newColumns = new Map(state.board.columns);
+            for (const [, column] of newColumns) {
+              const taskIndex = column.tasks.findIndex((task) => task.$id === taskId);
+              if (taskIndex !== -1) {
+                column.tasks[taskIndex].title = title;
+                break;
+              }
+            }
 
-          const column = newColumns.get(columnId);
-          if (column) {
-            const updatedTasks = column.tasks.filter((task) => task.$id !== taskId);
-            column.tasks = updatedTasks;
-          }
+            return {
+              board: {
+                columns: newColumns,
+              },
+            };
+          });
+        },
 
-          // Save the updated board state to localStorage
-          localStorage.setItem('board', JSON.stringify({ columns: newColumns }));
+        deleteTask: (taskId: string, columnId: ParentType) => {
+          set((state) => {
+            const newColumns = new Map(state.board.columns);
 
-          return {
-            board: {
-              columns: newColumns,
-            },
-          };
-        });
-      },
-    }),
-    // persist options
-    { name: 'board-storage', 
-    storage: createJSONStorage(() => localStorage) }
+            const column = newColumns.get(columnId);
+            if (column) {
+              const updatedTasks = column.tasks.filter((task) => task.$id !== taskId);
+              column.tasks = updatedTasks;
+            }
+
+            return {
+              board: {
+                columns: newColumns,
+              },
+            };
+          });
+        },
+      }),
+      {
+        name: 'board-store'
+      } // Empty options object
+    )
   )
 );
