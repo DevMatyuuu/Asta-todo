@@ -106,8 +106,8 @@ function Board() {
               ref={provided.innerRef}
             >
               {
-                Array.from(board?.columns?.values() || []).map((column, index) => (
-                  <Column key={column.id} id={column.id} tasks={column.tasks} index={index} />
+                Array.from(board?.columns?.entries() || []).map(([columnId, column], index) => (
+                  <Column key={columnId} id={column.id} tasks={column.tasks} index={index} />
                 ))}
             </div>
           )}
