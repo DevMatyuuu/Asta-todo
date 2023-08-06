@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
 import { useBoardStore } from '../store/BoardStore';
 import Column from './Column';
-import secureLocalStorage from 'react-secure-storage';
 
 
 function Board() {
@@ -12,10 +11,6 @@ function Board() {
     useEffect(() => {
         getBoard();
       }, [getBoard]);
-
-      useEffect(() => {
-        setBoardState(board);
-      }, [board, setBoardState]);
 
     const handleonDragEnd = (result: DropResult) => {
         const {destination, source, type} = result;
@@ -88,8 +83,7 @@ function Board() {
             });
 
             setBoardState({columns: newColumns})
-        }
-        secureLocalStorage.setItem('board', JSON.stringify(board));
+        };
     };
 
 
