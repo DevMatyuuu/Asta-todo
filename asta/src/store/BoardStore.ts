@@ -32,13 +32,26 @@ export const useBoardStore = create<BoardState>()(
       updateTaskInput: '',
       loading: true,
       getBoard: () => {
-        // Load the persisted data from LocalStorage (if available)
-        const storedData = localStorage.getItem('board-storage');
-        if (storedData) {
-          const { board, addTaskInput, updateTaskInput } = JSON.parse(storedData);
-          set({ board, addTaskInput, updateTaskInput, loading: false });
-        } else {
-          set({ loading: false }); // Set loading to false if there's no data in LocalStorage
+        try {
+          // Load the persisted data from LocalStorage (if available)
+          const storedData = localStorage.getItem('board-storage');
+          if (storedData) {
+            const { board, addTaskInput, updateTaskInput } = JSON.parse(storedData);
+            if (board && board.columns instanceof Map) {
+              set({ board, addTaskInput, updateTaskInput, loading: false });
+            } else {
+              // Data in LocalStorage is corrupted, clear it and set loading to false
+              localStorage.removeItem('board-storage');
+              set({ loading: false });
+            }
+          } else {
+            set({ loading: false }); // Set loading to false if there's no data in LocalStorage
+          }
+        } catch (error) {
+          console.error('Error while loading data from LocalStorage:', error);
+          // Data in LocalStorage cannot be parsed, clear it and set loading to false
+          localStorage.removeItem('board-storage');
+          set({ loading: false });
         }
       },
       setBoardState: (board) => set({ board }),
