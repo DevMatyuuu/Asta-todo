@@ -94,6 +94,7 @@ function Board() {
     return <div>Loading...</div>;
   }
 
+  const columns = board && board.columns instanceof Map ? board.columns : new Map();
   return (
     <div>
       <DragDropContext onDragEnd={handleonDragEnd}>
