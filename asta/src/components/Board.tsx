@@ -6,7 +6,7 @@ import Column from './Column';
 
 
 function Board() {
-    const [getBoard, board, setBoardState,] = useBoardStore((state) => [state.getBoard, state.board, state.setBoardState, state.addTask, state.addTaskInput,]);
+    const [getBoard, board, setBoardState] = useBoardStore((state) => [state.getBoard, state.board, state.setBoardState, state.addTask, state.addTaskInput,]);
     
     useEffect(() => {
         getBoard();

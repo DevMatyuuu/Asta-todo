@@ -14,6 +14,7 @@ interface BoardState {
   setUpdateTaskInput: (input: string) => void;
   updateTask: (taskId: string, title: string) => void;
   deleteTask: (taskId: string, id: ParentType) => void;
+  loading: boolean;
 }
 
 export const useBoardStore = create<BoardState>()(
@@ -29,12 +30,15 @@ export const useBoardStore = create<BoardState>()(
       },
       addTaskInput: '',
       updateTaskInput: '',
+      loading: true,
       getBoard: () => {
         // Load the persisted data from LocalStorage (if available)
         const storedData = localStorage.getItem('board-storage');
         if (storedData) {
           const { board, addTaskInput, updateTaskInput } = JSON.parse(storedData);
-          set({ board, addTaskInput, updateTaskInput });
+          set({ board, addTaskInput, updateTaskInput, loading: false });
+        } else {
+          set({ loading: false }); // Set loading to false if there's no data in LocalStorage
         }
       },
       setBoardState: (board) => set({ board }),
