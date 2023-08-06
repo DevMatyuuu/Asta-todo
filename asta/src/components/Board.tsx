@@ -4,11 +4,10 @@ import { useBoardStore } from '../store/BoardStore';
 import Column from './Column';
 
 function Board() {
-  const [getBoard, board, setBoardState, saveMigrateTasks] = useBoardStore((state) => [
+  const [getBoard, board, setBoardState,] = useBoardStore((state) => [
     state.getBoard,
     state.board,
     state.setBoardState,
-    state.saveMigrateTasks,
   ]);
 
   useEffect(() => {
@@ -85,7 +84,6 @@ function Board() {
         tasks: migrateTasks,
       });
 
-      saveMigrateTasks(taskDragged, finalCol.id);
 
       setBoardState({ columns: newColumns });
     }
