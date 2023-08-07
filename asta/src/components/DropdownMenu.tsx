@@ -6,7 +6,6 @@ import {
   } from "@material-tailwind/react";
 import {BsThreeDotsVertical} from 'react-icons/bs'
 import { FaTrash, FaEdit } from 'react-icons/fa'
-import { Tooltip } from '@material-tailwind/react';
 import { useBoardStore } from '../store/BoardStore';
 
 
