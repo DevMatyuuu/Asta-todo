@@ -66,7 +66,7 @@ function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}:
         ) : (
           <form onSubmit={handleUpdateTask}>
             <input ref={inputRef} value={updateTaskInput} onChange={(e) => setUpdateTaskInput(e.target.value)} onBlur={handleInputBlur} className='md:max-w-[300px] md:w-[300px] md:h-10 rounded-lg md:pl-3' />
-            <div className='absolute top-7 right-24'>
+            <div className='absolute md:top-7 md:right-24'>
               <AiFillCloseCircle />
             </div>
           </form>

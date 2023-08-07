@@ -36,9 +36,9 @@ function Column({id, tasks, index}: ColumnProps) {
                             <div
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
-                                className={`pb-7 p-2 rounded-2xl shadow-sm ${snapshot.isDraggingOver ? 'bg-slate-300' : 'bg-slate-400/20'}`}>
-                               <h2 className='flex md:ml-5 ml-3 justify-between text-[17px]'>{id}
-                               <p className='md:mr-2 bg-slate-400/40 rounded-full w-8 h-7 text-center'>{tasks.length}</p>
+                                className={`pb-7 p-2 rounded-2xl shadow-sm ${snapshot.isDraggingOver ? 'bg-slate-300' : 'bg-slate-600/20'}`}>
+                               <h2 className='flex md:ml-5 ml-3 justify-between text-[17px] font-semibold'>{id}
+                               <p className='md:mr-2 bg-slate-600/40 rounded-full w-6  h-6 md:pt-[2px] text-sm text-center'>{tasks.length}</p>
                                </h2>
                                <div className='space-y-2'>
                                     {tasks.map((task, index) => (
@@ -51,7 +51,7 @@ function Column({id, tasks, index}: ColumnProps) {
                                 {provided.placeholder}
                                </div>
                                <div>
-                                    <Button onClick={handleAddTask} className='bg-slate-500/20 w-[400px] md:ml-3 md:mt-5 py-3 hover:bg-slate-500/50'>
+                                    <Button onClick={handleAddTask} className='bg-slate-600/30 w-[400px] md:ml-3 md:mt-5 py-3 hover:bg-slate-500/50'>
                                         <div className='flex items-center justify-center gap-1'>
                                             <AiFillPlusCircle size={20}/> 
                                             <p className='text-[15px]'>Add</p>
