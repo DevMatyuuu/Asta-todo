@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+
 import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
 import { useBoardStore } from '../store/BoardStore';
 import Column from './Column';
@@ -6,11 +6,8 @@ import Column from './Column';
 
 
 function Board() {
-    const [getBoard, board, setBoardState,] = useBoardStore((state) => [state.getBoard, state.board, state.setBoardState, state.addTask, state.addTaskInput,]);
+    const [ board, setBoardState,] = useBoardStore((state) => [ state.board, state.setBoardState, state.addTask, state.addTaskInput,]);
     
-    useEffect(() => {
-        getBoard();
-      }, [getBoard]);
 
     const handleonDragEnd = (result: DropResult) => {
         const {destination, source, type} = result;
@@ -98,8 +95,8 @@ function Board() {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {Array.from(board.columns.values()).map((column, index) => (
-                <Column key={column.id} id={column.id} tasks={column.tasks} index={index} />
+              {Array.from(board.columns.entries()).map(([id, column], index) => (
+                <Column key={id} id={id} tasks={column.tasks} index={index} />
               ))}
             </div>
           )}
