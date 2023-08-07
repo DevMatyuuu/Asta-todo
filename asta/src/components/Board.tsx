@@ -2,11 +2,13 @@
 import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
 import { useBoardStore } from '../store/BoardStore';
 import Column from './Column';
+import { useDarkModeStore } from '../store/DarkModeStore';
 
 
 
 function Board() {
-    const [ board, setBoardState,] = useBoardStore((state) => [ state.board, state.setBoardState, state.addTask, state.addTaskInput,]);
+    const [ board, setBoardState] = useBoardStore((state) => [ state.board, state.setBoardState, state.addTask, state.addTaskInput,]);
+    const isDark = useDarkModeStore((state) => state.isDark)
     
 
     const handleonDragEnd = (result: DropResult) => {
@@ -86,22 +88,24 @@ function Board() {
 
 
   return (
-<div>
-      <DragDropContext onDragEnd={handleonDragEnd}>
-        <Droppable droppableId='board' direction='horizontal' type='column'>
-          {(provided) => (
-            <div
-              className='grid grid-cols-1 md:grid-cols-3 gap-5 p-5 max-w-[1400px] mx-auto md:mt-5'
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {Array.from(board.columns.values()).map((column, index) => (
-                <Column key={column.id} id={column.id} tasks={column.tasks} index={index} />
-              ))}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+<div className={isDark ? 'bg-black h-screen' : ''}>
+    <div>
+        <DragDropContext onDragEnd={handleonDragEnd}>
+            <Droppable droppableId='board' direction='horizontal' type='column'>
+            {(provided) => (
+                <div
+                className='grid grid-cols-1 md:grid-cols-3 gap-5 p-5 max-w-[1400px] mx-auto md:mt-5'
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                >
+                {Array.from(board.columns.values()).map((column, index) => (
+                    <Column key={column.id} id={column.id} tasks={column.tasks} index={index} />
+                ))}
+                </div>
+            )}
+            </Droppable>
+        </DragDropContext>
+        </div>
     </div>
   )
 }

@@ -12,6 +12,8 @@ interface BoardState {
   setUpdateTaskInput: (input: string) => void;
   updateTask: (taskId: string, title: string) => void;
   deleteTask: (taskId: string, id: ParentType) => void;
+  isDark: boolean;
+  setDark: (checked: boolean) => void;
 }
 
 export const useBoardStore = create<BoardState>((set) => ({
@@ -100,4 +102,6 @@ export const useBoardStore = create<BoardState>((set) => ({
       };
     });
   },
+  isDark: false,
+  setDark: () => set((state) => ({ isDark: !state.isDark })),
 }));
