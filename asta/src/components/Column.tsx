@@ -36,7 +36,7 @@ function Column({id, tasks, index}: ColumnProps) {
                             <div
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
-                                className={`pb-7 p-2 rounded-2xl shadow-sm ${snapshot.isDraggingOver ? 'bg-slate-300' : 'bg-slate-600/20'}`}>
+                                className={`pb-7 p-2 rounded-xl shadow-sm ${snapshot.isDraggingOver ? 'bg-slate-300' : 'bg-slate-600/20'}`}>
                                <h2 className='flex md:ml-5 ml-3 justify-between text-[17px] font-semibold'>{id}
                                <p className='md:mr-2 bg-slate-600/40 rounded-full w-6  h-6 md:pt-[2px] text-sm text-center'>{tasks.length}</p>
                                </h2>
