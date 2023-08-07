@@ -3,6 +3,7 @@ import DropdownMenu from './DropdownMenu';
 import { useUpdateTaskStore } from '../store/UpdateTaskStore';
 import { useBoardStore } from '../store/BoardStore';
 import { useEffect, useRef } from 'react';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 
 
@@ -65,6 +66,9 @@ function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}:
         ) : (
           <form onSubmit={handleUpdateTask}>
             <input ref={inputRef} value={updateTaskInput} onChange={(e) => setUpdateTaskInput(e.target.value)} onBlur={handleInputBlur} className='md:max-w-[300px] md:w-[300px] md:h-10 rounded-lg md:pl-3' />
+            <div className='absolute top-7 right-24'>
+              <AiFillCloseCircle />
+            </div>
           </form>
         )}
         <div className='flex gap-2 cursor-pointer text-lg'>
