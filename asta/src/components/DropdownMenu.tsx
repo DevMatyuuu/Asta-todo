@@ -27,16 +27,22 @@ function DropdownMenu({task, id, onEditClick}: DropdownProps){
     <MenuHandler>
         <button><BsThreeDotsVertical/></button>
     </MenuHandler>
-    <MenuList className='grid gap-4 rounded-lg text-[14px] py-3 px-1 shadow-md text-center bg-white'>
-      <MenuItem className='rounded-lg px-5 text-center text-lg'>
-        <Tooltip content="Edit" placement="right" className="text-black bg-slate-300 font-normal px-3 font-poppins" animate={{ mount: { scale: 1, y: 2, x:10 },unmount: { scale: 0, y: 0 },}} >
-            <button onClick={onEditClick}><FaEdit /></button>
-        </Tooltip>
+    <MenuList className='grid rounded-lg text-[14px] py-3 shadow-md text-start bg-white'>
+      <MenuItem>
+            <button onClick={onEditClick} className='rounded-lg px-7 text-start md:text-[15px] hover:bg-slate-200 md:py-2'>
+              <div className="flex items-center gap-2">
+                <FaEdit/>
+                <p>Edit</p>
+              </div>
+            </button>
       </MenuItem>
-      <MenuItem className='rounded-lg px-5 text-center text-lg'>
-        <Tooltip content="Delete" placement="right" className="text-black bg-slate-300 font-normal px-3 font-poppins" animate={{ mount: { scale: 1, y: 2, x:10 },unmount: { scale: 0, y: 0 },}}>
-          <button onClick={() => deleteTask(task.$id, id)}><FaTrash /></button>
-        </Tooltip>
+      <MenuItem >
+          <button onClick={() => deleteTask(task.$id, id)} className='rounded-lg px-5 text-center md:text-[15px] hover:bg-slate-200 md:py-2'>
+            <div className="flex items-center gap-2">
+              <FaTrash />
+              <p>Delete</p>
+            </div>
+          </button>
       </MenuItem>
     </MenuList>
   </Menu>
