@@ -12,16 +12,11 @@ function Board() {
   
     if (!destination) return;
   
-    if (type === 'column') {
-      // Reorder columns when dragged within the board
-      const newColumns = [...board.columns];
-      const [removed] = newColumns.splice(source.index, 1);
-      newColumns.splice(destination.index, 0, removed);
-      setBoardState({ columns: newColumns });
-    } else if (type === 'task') {
+    if (type === 'task') {
       if (source.droppableId === destination.droppableId) {
-        // Reorder tasks within the same column
+        // Reorder task within the same column
         const column = board.columns.find((col) => col.id === source.droppableId);
+  
         if (column) {
           const newTasks = [...column.tasks];
           const [removed] = newTasks.splice(source.index, 1);
@@ -34,26 +29,30 @@ function Board() {
           setBoardState({ columns: newColumns });
         }
       } else {
-        // Move task from source to destination column
+        // Move task from one column to another
         const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
         const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
   
         if (sourceColumn && destinationColumn) {
           const sourceTasks = [...sourceColumn.tasks];
+          const [removed] = sourceTasks.splice(source.index, 1);
           const destinationTasks = [...destinationColumn.tasks];
-          const [movedTask] = sourceTasks.splice(source.index, 1);
-          destinationTasks.splice(destination.index, 0, movedTask);
+          destinationTasks.splice(destination.index, 0, removed);
   
-          const newColumns = board.columns.map((col) =>
-            col.id === source.droppableId ? { ...col, tasks: sourceTasks } :
-            col.id === destination.droppableId ? { ...col, tasks: destinationTasks } : col
+          const updatedColumns = board.columns.map((col) =>
+            col.id === source.droppableId
+              ? { ...col, tasks: sourceTasks }
+              : col.id === destination.droppableId
+              ? { ...col, tasks: destinationTasks }
+              : col
           );
   
-          setBoardState({ columns: newColumns });
+          setBoardState({ columns: updatedColumns });
         }
       }
     }
   };
+  
   
 
   return (
