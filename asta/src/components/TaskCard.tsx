@@ -61,7 +61,7 @@ function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}:
   }, []);
 
   return (
-    <div {...draggableProps} {...dragHandleProps} ref={innerRef} className={`${isDark ? 'bg-gray-700/30  hover:bg-slate-500/20' : 'bg-white/60  hover:bg-slate-500/20'}  md:w-[400px] w-[200px] mt-10 py-1 mx-auto rounded-lg space-y-2 px-5 drop-shadow-md`}>
+    <div {...draggableProps} {...dragHandleProps} ref={innerRef} className={`${isDark ? 'bg-gray-700/30  hover:bg-slate-500/20' : 'bg-white/60  hover:bg-slate-500/20'}  w-[400px] mt-10 py-1 mx-auto rounded-lg space-y-2 px-5 drop-shadow-md`}>
       <div className='flex justify-between items-center py-3'>
       {!isUpdatingSpecificTask ? (
           <p className={`${isDark ? 'text-white' : 'text-black'} md:max-w-[300px]`}>{task.title}</p>
