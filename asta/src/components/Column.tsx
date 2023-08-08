@@ -39,8 +39,8 @@ function Column({id, tasks, index}: ColumnProps) {
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
                                 className={`pb-7 p-2 rounded-xl shadow-sm ${snapshot.isDraggingOver ? 'bg-slate-300' : 'bg-slate-600/20'}`}>
-                               <h2 className={` ${isDark ? 'text-white' : 'text-black'} flex md:ml-5 ml-3 justify-between text-[17px] font-semibold`}>{id}
-                               <p className={isDark ? 'md:mr-2 bg-slate-600/40 rounded-full w-6 text-white  h-6 md:pt-[2px] text-sm text-center' : 'md:mr-2 text-black bg-slate-600/40 rounded-full w-6  h-6 md:pt-[2px] text-sm text-center'}>{tasks.length}</p>
+                               <h2 className={` ${isDark ? 'text-white' : 'text-black'} flex mt-2 md:ml-5 ml-6 justify-between text-[17px] font-semibold`}>{id}
+                               <p className={`${isDark ? 'text-white' : 'text-black'} md:mr-2 mr-6 bg-slate-600/40 rounded-full w-6  h-6 md:pt-[2px] pt-[1px] text-sm text-center`}>{tasks.length}</p>
                                </h2>
                                <div className='space-y-2'>
                                     {tasks.map((task, index) => (
@@ -52,8 +52,8 @@ function Column({id, tasks, index}: ColumnProps) {
                                     ))}
                                 {provided.placeholder}
                                </div>
-                               <div>
-                                    <Button onClick={handleAddTask} className='bg-slate-600/30 w-[400px] md:ml-3 md:mt-5 py-3 hover:bg-slate-500/50'>
+                               <div className='justify-center flex'>
+                                    <Button onClick={handleAddTask} className='bg-slate-600/30 w-[400px] md:ml-3 mt-5 md:mt-5 py-3 hover:bg-slate-500/50'>
                                         <div className={` ${isDark ? 'text-white' : 'text-black'} flex items-center justify-center gap-1`}>
                                             <AiFillPlusCircle size={20}/> 
                                             <p className='text-[15px]'>Add</p>

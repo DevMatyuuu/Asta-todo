@@ -13,7 +13,7 @@ function DarkModeToggle() {
       checked={isDark}
       onChange={toggleDarkMode}
       size={40}
-      className='absolute right-6 top-10'
+      className='absolute right-0 md:right-6 top-10'
     />
     </div>
   )
