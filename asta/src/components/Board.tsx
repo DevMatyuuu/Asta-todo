@@ -55,7 +55,7 @@ function Board() {
   
 
   return (
-    <div className={isDark ? 'bg-black h-screen' : ''}>
+    <div className={isDark ? 'bg-[#020403] h-screen' : ''}>
       <div>
         <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="board" direction="horizontal" type="column">
