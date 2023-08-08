@@ -9,31 +9,50 @@ function Board() {
 
   const handleDragEnd = (result: DropResult) => {
     const { destination, source, type } = result;
-
+  
     if (!destination) return;
-
+  
     if (type === 'task') {
-      const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
-      const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
-
-      if (sourceColumn && destinationColumn) {
-        const sourceTasks = Array.from(sourceColumn.tasks);
-        const [movedTask] = sourceTasks.splice(source.index, 1);
-        const destinationTasks = Array.from(destinationColumn.tasks);
-        destinationTasks.splice(destination.index, 0, movedTask);
-
-        const updatedColumns = board.columns.map((col) =>
-          col.id === source.droppableId
-            ? { ...col, tasks: sourceTasks }
-            : col.id === destination.droppableId
-            ? { ...col, tasks: destinationTasks }
-            : col
-        );
-
-        setBoardState({ columns: updatedColumns });
+      if (source.droppableId === destination.droppableId) {
+        // Reorder task within the same column
+        const column = board.columns.find((col) => col.id === source.droppableId);
+  
+        if (column) {
+          const newTasks = [...column.tasks];
+          const [movedTask] = newTasks.splice(source.index, 1);
+          newTasks.splice(destination.index, 0, movedTask);
+  
+          const newColumns = board.columns.map((col) =>
+            col.id === source.droppableId ? { ...col, tasks: newTasks } : col
+          );
+  
+          setBoardState({ columns: newColumns });
+        }
+      } else {
+        // Move task from one column to another
+        const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
+        const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
+  
+        if (sourceColumn && destinationColumn) {
+          const sourceTasks = [...sourceColumn.tasks];
+          const [movedTask] = sourceTasks.splice(source.index, 1);
+          const destinationTasks = [...destinationColumn.tasks];
+          destinationTasks.splice(destination.index, 0, movedTask);
+  
+          const updatedColumns = board.columns.map((col) =>
+            col.id === source.droppableId
+              ? { ...col, tasks: sourceTasks }
+              : col.id === destination.droppableId
+              ? { ...col, tasks: destinationTasks }
+              : col
+          );
+  
+          setBoardState({ columns: updatedColumns });
+        }
       }
     }
   };
+  
 
   return (
     <div className={isDark ? 'bg-black h-screen' : ''}>
