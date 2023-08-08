@@ -26,7 +26,7 @@ function DropdownMenu({task, id, onEditClick}: DropdownProps){
     <MenuHandler>
         <button><BsThreeDotsVertical/></button>
     </MenuHandler>
-    <MenuList className='grid rounded-lg text-[14px] py-3 shadow-md text-start bg-white'>
+    <MenuList className='grid rounded-lg text-[14px] py-3 shadow-md text-start bg-white px-2'>
       <MenuItem>
             <button onClick={onEditClick} className='rounded-lg md:px-[9px] w-24 text-center md:text-[15px] hover:bg-slate-200 md:py-2'>
               <div className="flex items-center gap-2">

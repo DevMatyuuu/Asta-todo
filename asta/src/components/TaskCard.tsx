@@ -3,8 +3,9 @@ import DropdownMenu from './DropdownMenu';
 import { useUpdateTaskStore } from '../store/UpdateTaskStore';
 import { useBoardStore } from '../store/BoardStore';
 import { useEffect, useRef } from 'react';
-import { AiFillCloseCircle } from 'react-icons/ai';
 import { useDarkModeStore } from '../store/DarkModeStore';
+import { BsArrowRight } from 'react-icons/bs'
+import { BsXCircleFill } from 'react-icons/bs'
 
 
 
@@ -16,6 +17,7 @@ type TaskCardProps = {
   draggableProps: DraggableProvidedDraggableProps;
   dragHandleProps: DraggableProvidedDragHandleProps | null | undefined;
 }
+
 
 
 function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}: TaskCardProps) {
@@ -35,13 +37,15 @@ function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}:
     }
   };
 
+
+
   const handleInputBlur = () => {
     // Reset the input to the initial task title when clicked outside the input
     setUpdateTaskInput(task.title);
     closeInput();
   };
 
-  const handleEditClick = () => {
+  const handleEdit = () => {
     setUpdateTaskInput(task.title);
     openInput(task.$id);
   };
@@ -68,13 +72,14 @@ function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}:
         ) : (
           <form onSubmit={handleUpdateTask}>
             <input ref={inputRef} value={updateTaskInput} onChange={(e) => setUpdateTaskInput(e.target.value)} onBlur={handleInputBlur} className='md:max-w-[300px] md:w-[300px] md:h-10 rounded-lg md:pl-3' />
-            <div className='absolute md:top-7 md:right-24'>
-              <AiFillCloseCircle />
+            <div className='flex items-center gap-2 absolute md:top-7 md:right-24'>
+              <div><BsArrowRight  size={18}/></div>
+              <BsXCircleFill size={18} />
             </div>
           </form>
         )}
         <div className={` ${isDark ? 'text-white' : 'text-black'} flex gap-2 cursor-pointer text-lg`}>
-            <DropdownMenu task={task} index={index} id={id} onEditClick={handleEditClick}/>
+            <DropdownMenu task={task} index={index} id={id} onEditClick={handleEdit}/>
         </div>
       </div>
     </div>

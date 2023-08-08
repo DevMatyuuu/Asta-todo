@@ -39,10 +39,10 @@ function AddModal() {
                 <input className='rounded-lg md:px-4 md:py-2 w-full md:mb-5' type='text' value={addTaskInput} onChange={(e) => setAddTaskInput(e.target.value)} placeholder='What is your task?'/>
             </div>
             <div className='flex gap-5 float-right'>
-                <Button onClick={modalClose} className='bg-slate-500/20 hover:bg-slate-400 px-4'>
+                <Button onClick={modalClose} className='bg-slate-700/40 hover:bg-slate-400  px-4'>
                     <p>Cancel</p>
                 </Button>
-                <Button className={`bg-slate-500/20 px-4 ${!addTaskInput ? 'text-slate-100' : 'text-black hover:bg-slate-400'} `} type='submit' disabled={!addTaskInput}>
+                <Button className={`bg-slate-700/40 px-4 ${!addTaskInput ? 'text-slate-300 cursor-not-allowed' : 'text-white hover:bg-slate-400 '} `} type='submit' disabled={!addTaskInput}>
                     <p>Add</p>
                 </Button>
             </div>
