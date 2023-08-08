@@ -8,10 +8,10 @@ function Header() {
   return (
     <header className={isDark ? 'bg-[#020403]' : ''}>
         <div className='flex md:ml-[152px] md:pt-16 md:mt-0 md:pb-16 mb-10 pt-5 h-20 w-28 ml-5 mt-0 md:mb-10 text-start justify-between'>
-              <div className='md:mt-7 mt-7'>
-                <img src={!isDark ? logo : logowhite}  alt='asta' width={150} height={100}/>
+              <div className='md:mt-7 mt-10 ml-2'>
+                <img src={!isDark ? logo : logowhite}  alt='asta' width={80} className='h-14'/>
               </div>
-              <div className='absolute md:right-32 right-6'>
+              <div className='absolute md:right-32 right-6 top-6'>
                 <DarkModeToggle />
               </div>
         </div>
