@@ -33,7 +33,7 @@ function Column({id, tasks, index}: ColumnProps) {
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
                 ref={provided.innerRef}>
-                    <Droppable droppableId={index.toString()} type='card'>
+                    <Droppable droppableId={id} type='task'>
                         {(provided, snapshot) => (
                             <div
                                 {...provided.droppableProps}
