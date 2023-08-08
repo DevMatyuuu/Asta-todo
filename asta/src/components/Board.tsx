@@ -7,37 +7,38 @@ function Board() {
   const { board, setBoardState } = useBoardStore();
   const isDark = useDarkModeStore((state) => state.isDark);
 
-  const handleDragEnd = (result: DropResult) => {
+  const handleonDragEnd = (result: DropResult) => {
     const { destination, source, type } = result;
-  
+
     if (!destination) return;
-  
+
     if (type === 'task') {
-      const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
-      const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
-  
       if (source.droppableId === destination.droppableId) {
         // Reorder task within the same column
-        if (sourceColumn) {
-          const newTasks = Array.from(sourceColumn.tasks);
-          const [movedTask] = newTasks.splice(source.index, 1);
-          newTasks.splice(destination.index, 0, movedTask);
-  
+        const column = board.columns.find((col) => col.id === source.droppableId);
+
+        if (column) {
+          const newTasks = [...column.tasks];
+          const [removed] = newTasks.splice(source.index, 1);
+          newTasks.splice(destination.index, 0, removed);
+
           const newColumns = board.columns.map((col) =>
             col.id === source.droppableId ? { ...col, tasks: newTasks } : col
           );
-  
+
           setBoardState({ columns: newColumns });
         }
       } else {
         // Move task from one column to another
+        const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
+        const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
+
         if (sourceColumn && destinationColumn) {
-          const sourceTasks = Array.from(sourceColumn.tasks);
-          const [movedTask] = sourceTasks.splice(source.index, 1);
-  
-          const destinationTasks = Array.from(destinationColumn.tasks);
-          destinationTasks.splice(destination.index, 0, movedTask);
-  
+          const sourceTasks = [...sourceColumn.tasks];
+          const [removed] = sourceTasks.splice(source.index, 1);
+          const destinationTasks = [...destinationColumn.tasks];
+          destinationTasks.splice(destination.index, 0, removed);
+
           const updatedColumns = board.columns.map((col) =>
             col.id === source.droppableId
               ? { ...col, tasks: sourceTasks }
@@ -45,18 +46,17 @@ function Board() {
               ? { ...col, tasks: destinationTasks }
               : col
           );
-  
+
           setBoardState({ columns: updatedColumns });
         }
       }
     }
   };
-  
 
   return (
     <div className={isDark ? 'bg-black h-screen' : ''}>
       <div>
-        <DragDropContext onDragEnd={handleDragEnd}>
+        <DragDropContext onDragEnd={handleonDragEnd}>
           <Droppable droppableId="board" direction="horizontal" type="column">
             {(provided) => (
               <div
