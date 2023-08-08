@@ -35,9 +35,10 @@ function Board() {
 
         if (sourceColumn && destinationColumn) {
           const sourceTasks = [...sourceColumn.tasks];
-          const [removed] = sourceTasks.splice(source.index, 1);
+          const [movedTask] = sourceTasks.splice(source.index, 1);
+
           const destinationTasks = [...destinationColumn.tasks];
-          destinationTasks.splice(destination.index, 0, removed);
+          destinationTasks.splice(destination.index, 0, movedTask);
 
           const updatedColumns = board.columns.map((col) =>
             col.id === source.droppableId
