@@ -31,16 +31,15 @@ function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}:
   
   const handleUpdateTask = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (updateTaskInput.trim() !== '') { // Check if the input is not empty
+    if (updateTaskInput.trim() !== '') {
       updateTask(task.$id, updateTaskInput);
       closeInput();
     }
   };
 
 
-
+  // Reset the input to the initial task title when clicked outside the input
   const handleInputBlur = () => {
-    // Reset the input to the initial task title when clicked outside the input
     setUpdateTaskInput(task.title);
     closeInput();
   };
@@ -73,11 +72,10 @@ function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}:
           <form onSubmit={handleUpdateTask}>
             <input ref={inputRef} value={updateTaskInput} onChange={(e) => setUpdateTaskInput(e.target.value)} onBlur={handleInputBlur} className='md:max-w-[300px] md:w-[300px] md:h-10 rounded-lg md:pl-3' />
             <div className='flex items-center gap-2 absolute md:top-7 md:right-24'>
-              <div><BsArrowRight  size={18}/></div>
               <BsXCircleFill size={18} />
             </div>
           </form>
-        )}
+          )}
         <div className={` ${isDark ? 'text-white' : 'text-black'} flex gap-2 cursor-pointer text-lg`}>
             <DropdownMenu task={task} index={index} id={id} onEditClick={handleEdit}/>
         </div>
