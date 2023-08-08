@@ -4,6 +4,7 @@ import { useUpdateTaskStore } from '../store/UpdateTaskStore';
 import { useBoardStore } from '../store/BoardStore';
 import { useEffect, useRef } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { useDarkModeStore } from '../store/DarkModeStore';
 
 
 
@@ -20,6 +21,7 @@ type TaskCardProps = {
 function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}: TaskCardProps) {
   const [closeInput, updatingTaskId, openInput] = useUpdateTaskStore((state) => [state.closeInput, state.updatingTaskId, state.openInput])
   const [setUpdateTaskInput, updateTaskInput ,updateTask] = useBoardStore((state) => [state.setUpdateTaskInput, state.updateTaskInput, state.updateTask])
+  const isDark = useDarkModeStore((state) => state.isDark)
 
   const isUpdatingSpecificTask = updatingTaskId === task.$id;
 
@@ -59,10 +61,10 @@ function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}:
   }, []);
 
   return (
-    <div {...draggableProps} {...dragHandleProps} ref={innerRef} className='bg-white/60 hover:bg-slate-500/20 w-[400px] mt-10 py-1 mx-auto rounded-lg space-y-2 px-5 drop-shadow-md'>
+    <div {...draggableProps} {...dragHandleProps} ref={innerRef} className={`${isDark ? 'bg-gray-700/30  hover:bg-slate-500/20' : 'bg-white/60  hover:bg-slate-500/20'}  w-[400px] mt-10 py-1 mx-auto rounded-lg space-y-2 px-5 drop-shadow-md`}>
       <div className='flex justify-between items-center py-3'>
       {!isUpdatingSpecificTask ? (
-          <p className='md:max-w-[300px]'>{task.title}</p>
+          <p className={`${isDark ? 'text-white' : 'text-black'} md:max-w-[300px]`}>{task.title}</p>
         ) : (
           <form onSubmit={handleUpdateTask}>
             <input ref={inputRef} value={updateTaskInput} onChange={(e) => setUpdateTaskInput(e.target.value)} onBlur={handleInputBlur} className='md:max-w-[300px] md:w-[300px] md:h-10 rounded-lg md:pl-3' />
@@ -71,7 +73,7 @@ function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}:
             </div>
           </form>
         )}
-        <div className='flex gap-2 cursor-pointer text-lg'>
+        <div className={` ${isDark ? 'text-white' : 'text-black'} flex gap-2 cursor-pointer text-lg`}>
             <DropdownMenu task={task} index={index} id={id} onEditClick={handleEditClick}/>
         </div>
       </div>

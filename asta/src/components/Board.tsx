@@ -3,12 +3,21 @@ import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
 import { useBoardStore } from '../store/BoardStore';
 import Column from './Column';
 import { useDarkModeStore } from '../store/DarkModeStore';
+import { useEffect, useState } from 'react';
 
 
 
 function Board() {
+    const [isReady, setIsReady] = useState<boolean>(false);
     const [ board, setBoardState] = useBoardStore((state) => [ state.board, state.setBoardState, state.addTask, state.addTaskInput,]);
     const isDark = useDarkModeStore((state) => state.isDark)
+
+    useEffect(() => {
+        // Use a timeout to ensure that the state is ready
+        setTimeout(() => {
+          setIsReady(true);
+        }, 0);
+      }, []);
     
 
     const handleonDragEnd = (result: DropResult) => {
@@ -87,27 +96,34 @@ function Board() {
     };
 
 
-  return (
-<div className={isDark ? 'bg-black h-screen' : ''}>
-    <div>
-        <DragDropContext onDragEnd={handleonDragEnd}>
-            <Droppable droppableId='board' direction='horizontal' type='column'>
-            {(provided) => (
-                <div
-                className='grid grid-cols-1 md:grid-cols-3 gap-5 p-5 max-w-[1400px] mx-auto md:mt-5'
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                >
-                {Array.from(board.columns.values()).map((column, index) => (
-                    <Column key={column.id} id={column.id} tasks={column.tasks} index={index} />
-                ))}
-                </div>
+    return (
+        <div className={isDark ? 'bg-black h-screen' : ''}>
+          <div>
+            {isReady && ( // Render only when the state is ready
+              <DragDropContext onDragEnd={handleonDragEnd}>
+                <Droppable droppableId="board" direction="horizontal" type="column">
+                  {(provided) => (
+                    <div
+                      className="grid grid-cols-1 md:grid-cols-3 gap-5 p-5 max-w-[1400px] mx-auto md:mt-5"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {Array.from(board.columns.keys()).map((columnId, index) => (
+                        <Column
+                          key={columnId}
+                          id={columnId}
+                          tasks={board.columns.get(columnId)?.tasks || []}
+                          index={index}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
             )}
-            </Droppable>
-        </DragDropContext>
+          </div>
         </div>
-    </div>
-  )
+      );
 }
 
 export default Board

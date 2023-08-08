@@ -10,11 +10,10 @@ function DarkModeToggle() {
   return (
     <div>
       <DarkModeSwitch
-      style={{ marginBottom: '2rem' }}
       checked={isDark}
       onChange={toggleDarkMode}
       size={40}
-      className='absolute right-10 top-10'
+      className='absolute right-6 top-10'
     />
     </div>
   )
