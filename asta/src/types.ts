@@ -1,6 +1,6 @@
 type Board = {
-    columns: Map<ParentType, Column>
-}
+    columns: Column[];
+};
 
 type ParentType = 'To-do' | 'In-progress' | 'Done'
 
