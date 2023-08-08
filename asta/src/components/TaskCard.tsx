@@ -4,7 +4,6 @@ import { useUpdateTaskStore } from '../store/UpdateTaskStore';
 import { useBoardStore } from '../store/BoardStore';
 import { useEffect, useRef } from 'react';
 import { useDarkModeStore } from '../store/DarkModeStore';
-import { BsArrowRight } from 'react-icons/bs'
 import { BsXCircleFill } from 'react-icons/bs'
 
 
