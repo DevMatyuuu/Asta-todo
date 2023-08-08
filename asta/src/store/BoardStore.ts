@@ -27,10 +27,11 @@ export const useBoardStore = create<BoardState>()(
           { id: 'Done', tasks: [] },
         ],
       },
-      addTaskInput: '',
-      updateTaskInput: '',
       getBoard: () => {},
       setBoardState: (board) => set({ board }),
+
+      //add task state
+      addTaskInput: '',
       setAddTaskInput: (input: string) => set({ addTaskInput: input }),
       addTask: (task: string, columnId: ParentType) => {
         set((state) => {
@@ -54,6 +55,9 @@ export const useBoardStore = create<BoardState>()(
           };
         });
       },
+
+      //update task state
+      updateTaskInput: '',
       setUpdateTaskInput: (input: string) => set({ updateTaskInput: input }),
       updateTask: (taskId: string, title: string) => {
         set((state) => {
@@ -74,6 +78,8 @@ export const useBoardStore = create<BoardState>()(
           };
         });
       },
+
+      //delete task state
       deleteTask: (taskId: string, columnId: ParentType) => {
         set((state) => {
           const newColumns = [...state.board.columns];
@@ -93,7 +99,7 @@ export const useBoardStore = create<BoardState>()(
       },
     }),
     {
-      name: 'board-storage', // A unique name for the localStorage key
+      name: 'board-storage', 
     }
   )
 );

@@ -1,6 +1,6 @@
 import { DraggableProvidedDragHandleProps, DraggableProvidedDraggableProps } from 'react-beautiful-dnd'
 import DropdownMenu from './DropdownMenu';
-import { useUpdateTaskStore } from '../store/UpdateTaskStore';
+import { useEditModeStore} from '../store/EditModeStore';
 import { useBoardStore } from '../store/BoardStore';
 import { useEffect, useRef } from 'react';
 import { useDarkModeStore } from '../store/DarkModeStore';
@@ -20,7 +20,7 @@ type TaskCardProps = {
 
 
 function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}: TaskCardProps) {
-  const [closeInput, updatingTaskId, openInput] = useUpdateTaskStore((state) => [state.closeInput, state.updatingTaskId, state.openInput])
+  const [closeInput, updatingTaskId, openInput] = useEditModeStore((state) => [state.closeInput, state.updatingTaskId, state.openInput])
   const [setUpdateTaskInput, updateTaskInput ,updateTask] = useBoardStore((state) => [state.setUpdateTaskInput, state.updateTaskInput, state.updateTask])
   const isDark = useDarkModeStore((state) => state.isDark)
 

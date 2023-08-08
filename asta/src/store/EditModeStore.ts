@@ -9,7 +9,7 @@ interface UpdateTaskState {
   setUpdatingTaskId: (taskId: string) => void;
 }
 
-export const useUpdateTaskStore = create<UpdateTaskState>()(
+export const useEditModeStore = create<UpdateTaskState>()(
   persist(
     (set) => ({
       isUpdating: false,
@@ -24,4 +24,4 @@ export const useUpdateTaskStore = create<UpdateTaskState>()(
   )
 );
 
-export default useUpdateTaskStore;
+export default useEditModeStore;
