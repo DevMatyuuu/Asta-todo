@@ -18,39 +18,24 @@ function Board() {
       newColumns.splice(destination.index, 0, removed);
       setBoardState({ columns: newColumns });
     } else if (type === 'task') {
-      if (source.droppableId === destination.droppableId) {
-        const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
-        if (sourceColumn) {
-          const newTasks = [...sourceColumn.tasks];
-          const [removed] = newTasks.splice(source.index, 1);
-          newTasks.splice(destination.index, 0, removed);
+      const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
+      const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
 
-          const newColumns = board.columns.map((col) =>
-            col.id === source.droppableId ? { ...col, tasks: newTasks } : col
-          );
+      if (sourceColumn && destinationColumn) {
+        const sourceTasks = [...sourceColumn.tasks];
+        const [removed] = sourceTasks.splice(source.index, 1);
+        const destinationTasks = [...destinationColumn.tasks];
+        destinationTasks.splice(destination.index, 0, removed);
 
-          setBoardState({ columns: newColumns });
-        }
-      } else {
-        const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
-        const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
+        const newColumns = board.columns.map((col) =>
+          col.id === source.droppableId
+            ? { ...col, tasks: sourceTasks }
+            : col.id === destination.droppableId
+            ? { ...col, tasks: destinationTasks }
+            : col
+        );
 
-        if (sourceColumn && destinationColumn) {
-          const sourceTasks = [...sourceColumn.tasks];
-          const [removed] = sourceTasks.splice(source.index, 1);
-          const destinationTasks = [...destinationColumn.tasks];
-          destinationTasks.splice(destination.index, 0, removed);
-
-          const newColumns = board.columns.map((col) =>
-            col.id === source.droppableId
-              ? { ...col, tasks: sourceTasks }
-              : col.id === destination.droppableId
-              ? { ...col, tasks: destinationTasks }
-              : col
-          );
-
-          setBoardState({ columns: newColumns });
-        }
+        setBoardState({ columns: newColumns });
       }
     }
   };
