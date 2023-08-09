@@ -44,7 +44,7 @@ function Column({id, tasks, index}: ColumnProps) {
                             <div
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
-                                className={`pb-7 p-2 rounded-xl shadow-sm ${isDark ? 'bg-[#1F2022]/40' : 'bg-slate-700/10'} ${snapshot.isDraggingOver ? `${isDark ? 'bg-gray-800/70' : 'bg-slate-500'}` : ''}`}>
+                                className={`pb-7 p-2 rounded-xl shadow-sm ${isDark ? 'bg-[#1F2022]/40' : 'bg-slate-700/10'} ${snapshot.isDraggingOver ? `${isDark ? 'bg-slate-600/70' : 'bg-slate-500'}` : ''}`}>
                                <h2 className={` ${isDark ? 'text-white' : 'text-black'} flex mt-2 md:ml-5 ml-6 justify-between text-[17px] font-semibold`}>{id}
                                <p className={`${isDark ? 'text-white' : 'text-black'} md:mr-2 mr-6 bg-slate-600/40 rounded-full w-6  h-6 md:pt-[2px] pt-[1px] text-sm text-center`}>{tasks.length}</p>
                                </h2>
