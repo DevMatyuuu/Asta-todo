@@ -15,6 +15,7 @@ interface BoardState {
   setUpdateTaskInput: (input: string) => void;
   updateTask: (taskId: string, title: string) => void;
   deleteTask: (taskId: string, id: ParentType) => void;
+  clearAllTask: (id: ParentType) => void;
 }
 
 export const useBoardStore = create<BoardState>()(
@@ -90,6 +91,24 @@ export const useBoardStore = create<BoardState>()(
             newColumns[columnIndex].tasks = updatedTasks;
           }
 
+          return {
+            board: {
+              columns: newColumns,
+            },
+          };
+        });
+      },
+
+      // Clear all tasks in the column
+      clearAllTask: (columnId: ParentType) => {
+        set((state) => {
+          const newColumns = [...state.board.columns];
+      
+          const columnIndex = newColumns.findIndex((column) => column.id === columnId);
+          if (columnIndex !== -1) {
+            newColumns[columnIndex].tasks = []; 
+          }
+      
           return {
             board: {
               columns: newColumns,
