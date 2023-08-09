@@ -7,7 +7,7 @@ function App() {
  const isDark = useDarkModeStore((state) => state.isDark)
 
   return (
-    <div className={isDark ? 'bg-[#020403] h-auto md:overflow-hidden' : ''}>
+    <div className={isDark ? 'bg-[#020403] h-auto md:h-screen' : ''}>
         <Header />
         <Board />
     </div>
