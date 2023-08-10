@@ -30,7 +30,6 @@ function Board() {
         }
       } else {
         // Move task from one column to another
-        // Move task from one column to another
         const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
         const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
 
@@ -38,10 +37,11 @@ function Board() {
           const sourceTasks = [...sourceColumn.tasks];
           const [movedTask] = sourceTasks.splice(source.index, 1);
           const destinationTasks = [...destinationColumn.tasks];
-          destinationTasks.splice(destination.index, 0, { ...movedTask, status: destination.droppableId as ParentType });
 
-          // Log the updated status value for debugging
-          console.log('Updated Status:', destination.droppableId as ParentType);
+          // Update the status property of the moved task
+          movedTask.status = destination.droppableId as ParentType;
+
+          destinationTasks.splice(destination.index, 0, movedTask);
 
           const updatedColumns = board.columns.map((col) =>
             col.id === source.droppableId
@@ -53,7 +53,6 @@ function Board() {
 
           setBoardState({ columns: updatedColumns });
         }
-
       }
     }
   }
