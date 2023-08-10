@@ -6,6 +6,7 @@ import { useDarkModeStore } from '../store/DarkModeStore';
 function Board() {
   const { board, setBoardState } = useBoardStore();
   const isDark = useDarkModeStore((state) => state.isDark);
+  const clearAllTask = useBoardStore((state) => state.clearAllTask)
 
   const handleDragEnd = (result: DropResult) => {
     const { destination, source, type } = result;
@@ -32,14 +33,13 @@ function Board() {
         // Move task from one column to another
         const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
         const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
-
+  
         if (sourceColumn && destinationColumn) {
           const sourceTasks = [...sourceColumn.tasks];
           const [movedTask] = sourceTasks.splice(source.index, 1);
           const destinationTasks = [...destinationColumn.tasks];
           destinationTasks.splice(destination.index, 0, { ...movedTask, status: destination.droppableId as ParentType });
-
-
+  
           const updatedColumns = board.columns.map((col) =>
             col.id === source.droppableId
               ? { ...col, tasks: sourceTasks }
@@ -47,12 +47,17 @@ function Board() {
               ? { ...col, tasks: destinationTasks }
               : col
           );
-
+  
+          // Update column ID of the moved task
           setBoardState({ columns: updatedColumns });
+  
+          // Call clearAllTask function to ensure the task is properly cleared
+          clearAllTask(destination.droppableId as ParentType);
         }
       }
     }
   };
+  
   
   
 
