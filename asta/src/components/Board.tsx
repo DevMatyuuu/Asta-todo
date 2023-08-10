@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { useBoardStore } from '../store/BoardStore';
 import Column from './Column';
 import { useDarkModeStore } from '../store/DarkModeStore';
 
 function Board() {
-  const { board, setBoardState, clearAllTask } = useBoardStore();
+  const { board,  clearAllTask } = useBoardStore();
   const isDark = useDarkModeStore((state) => state.isDark);
   
   // Create local state for the board
