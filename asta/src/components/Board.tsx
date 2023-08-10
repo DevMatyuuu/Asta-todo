@@ -1,70 +1,67 @@
-import { useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { useBoardStore } from '../store/BoardStore';
 import Column from './Column';
 import { useDarkModeStore } from '../store/DarkModeStore';
 
 function Board() {
-  const { board, clearAllTask } = useBoardStore();
+  const { board, setBoardState } = useBoardStore();
   const isDark = useDarkModeStore((state) => state.isDark);
-
-  // Create local state for the board
-  const [localBoard, setLocalBoard] = useState(board);
+  const clearAllTask = useBoardStore((state) => state.clearAllTask)
 
   const handleDragEnd = (result: DropResult) => {
     const { destination, source, type } = result;
-
+  
     if (!destination) return;
-
+  
     if (type === 'task') {
       if (source.droppableId === destination.droppableId) {
         // Reorder task within the same column
-        const column = localBoard.columns.find((col) => col.id === source.droppableId);
-
+        const column = board.columns.find((col) => col.id === source.droppableId);
+  
         if (column) {
           const newTasks = [...column.tasks];
           const [movedTask] = newTasks.splice(source.index, 1);
           newTasks.splice(destination.index, 0, movedTask);
-
-          const newColumns = localBoard.columns.map((col) =>
+  
+          const newColumns = board.columns.map((col) =>
             col.id === source.droppableId ? { ...col, tasks: newTasks } : col
           );
-
-          // Update localBoard state
-          setLocalBoard({ columns: newColumns });
+  
+          setBoardState({ columns: newColumns });
         }
       } else {
         // Move task from one column to another
-        const sourceColumn = localBoard.columns.find((col) => col.id === source.droppableId);
-        const destinationColumn = localBoard.columns.find((col) => col.id === destination.droppableId);
-
+        const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
+        const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
+  
         if (sourceColumn && destinationColumn) {
           const sourceTasks = [...sourceColumn.tasks];
           const [movedTask] = sourceTasks.splice(source.index, 1);
           const destinationTasks = [...destinationColumn.tasks];
-
+  
           // Update the status property of the moved task
           movedTask.status = destination.droppableId as ParentType;
-
+  
           destinationTasks.splice(destination.index, 0, movedTask);
-
-          const updatedColumns = localBoard.columns.map((col) =>
+  
+          const updatedColumns = board.columns.map((col) =>
             col.id === source.droppableId
               ? { ...col, tasks: sourceTasks }
               : col.id === destination.droppableId
               ? { ...col, tasks: destinationTasks }
               : col
           );
-
-          // Update localBoard state
-          setLocalBoard({ columns: updatedColumns });
-
+  
+          // Update column ID of the moved task
+          setBoardState({ columns: updatedColumns });
+  
           // Call clearAllTask function to ensure the task is properly cleared
           clearAllTask(destination.droppableId as ParentType);
         }
       }
     }
   };
+  
 
   return (
     <div className={isDark ? 'bg-[#020403]' : ''}>
@@ -77,7 +74,7 @@ function Board() {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {localBoard.columns.map((col, index) => (
+                {board.columns.map((col, index) => (
                   <Column key={col.id} id={col.id} tasks={col.tasks} index={index} />
                 ))}
               </div>
@@ -88,5 +85,6 @@ function Board() {
     </div>
   );
 }
+
 
 export default Board;
