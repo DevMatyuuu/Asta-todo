@@ -32,13 +32,13 @@ function Board() {
         // Move task from one column to another
         const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
         const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
-  
+
         if (sourceColumn && destinationColumn) {
           const sourceTasks = [...sourceColumn.tasks];
           const [movedTask] = sourceTasks.splice(source.index, 1);
           const destinationTasks = [...destinationColumn.tasks];
-          destinationTasks.splice(destination.index, 0, movedTask);
-  
+          destinationTasks.splice(destination.index, 0, { ...movedTask, status: destination.droppableId as ParentType });
+
           const updatedColumns = board.columns.map((col) =>
             col.id === source.droppableId
               ? { ...col, tasks: sourceTasks }
@@ -46,13 +46,12 @@ function Board() {
               ? { ...col, tasks: destinationTasks }
               : col
           );
-  
+
           setBoardState({ columns: updatedColumns });
         }
       }
     }
-  };
-  
+  }
 
   return (
     <div className={isDark ? 'bg-[#020403]' : ''}>
@@ -76,5 +75,6 @@ function Board() {
     </div>
   );
 }
+
 
 export default Board;
