@@ -9,40 +9,36 @@ function Board() {
 
   const handleDragEnd = (result: DropResult) => {
     const { destination, source, type } = result;
-
+  
     if (!destination) return;
-
+  
     if (type === 'task') {
       if (source.droppableId === destination.droppableId) {
         // Reorder task within the same column
         const column = board.columns.find((col) => col.id === source.droppableId);
-
+  
         if (column) {
           const newTasks = [...column.tasks];
           const [movedTask] = newTasks.splice(source.index, 1);
           newTasks.splice(destination.index, 0, movedTask);
-
+  
           const newColumns = board.columns.map((col) =>
             col.id === source.droppableId ? { ...col, tasks: newTasks } : col
           );
-
+  
           setBoardState({ columns: newColumns });
         }
       } else {
         // Move task from one column to another
         const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
         const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
-
+  
         if (sourceColumn && destinationColumn) {
           const sourceTasks = [...sourceColumn.tasks];
           const [movedTask] = sourceTasks.splice(source.index, 1);
           const destinationTasks = [...destinationColumn.tasks];
-
-          // Update the status property of the moved task
-          movedTask.status = destination.droppableId as ParentType;
-
           destinationTasks.splice(destination.index, 0, movedTask);
-
+  
           const updatedColumns = board.columns.map((col) =>
             col.id === source.droppableId
               ? { ...col, tasks: sourceTasks }
@@ -50,13 +46,13 @@ function Board() {
               ? { ...col, tasks: destinationTasks }
               : col
           );
-
-          // Update column ID of the moved task
+  
           setBoardState({ columns: updatedColumns });
         }
       }
     }
   };
+  
 
   return (
     <div className={isDark ? 'bg-[#020403]' : ''}>
