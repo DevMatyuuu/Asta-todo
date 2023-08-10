@@ -5,9 +5,9 @@ import Column from './Column';
 import { useDarkModeStore } from '../store/DarkModeStore';
 
 function Board() {
-  const { board,  clearAllTask } = useBoardStore();
+  const { board, clearAllTask } = useBoardStore();
   const isDark = useDarkModeStore((state) => state.isDark);
-  
+
   // Create local state for the board
   const [localBoard, setLocalBoard] = useState(board);
 
