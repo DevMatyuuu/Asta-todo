@@ -103,19 +103,19 @@ export const useBoardStore = create<BoardState>()(
       clearAllTask: (columnId: ParentType) => {
         set((state) => {
           const newColumns = [...state.board.columns];
-      
+        
           const columnIndex = newColumns.findIndex((column) => column.id === columnId);
           if (columnIndex !== -1) {
             newColumns[columnIndex].tasks = []; 
           }
-      
+        
           return {
             board: {
               columns: newColumns,
             },
           };
         });
-      },
+      },      
     }),
     {
       name: 'board-storage', 
