@@ -39,6 +39,7 @@ function Board() {
           const destinationTasks = [...destinationColumn.tasks];
           destinationTasks.splice(destination.index, 0, { ...movedTask, status: destination.droppableId as ParentType });
 
+
           const updatedColumns = board.columns.map((col) =>
             col.id === source.droppableId
               ? { ...col, tasks: sourceTasks }
