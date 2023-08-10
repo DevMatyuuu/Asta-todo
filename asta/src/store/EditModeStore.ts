@@ -19,7 +19,7 @@ export const useEditModeStore = create<UpdateTaskState>()(
       setUpdatingTaskId: (taskId: string) => set({ updatingTaskId: taskId }),
     }),
     {
-      name: 'update-task-store', // Specify a name for the storage
+      name: 'update-task-store', 
     }
   )
 );

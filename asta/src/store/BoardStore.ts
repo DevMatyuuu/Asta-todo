@@ -16,6 +16,7 @@ interface BoardState {
   updateTask: (taskId: string, title: string) => void;
   deleteTask: (taskId: string, id: ParentType) => void;
   clearAllTask: (id: ParentType) => void;
+  moveTask: (taskId: string, id: ParentType) => void;
 }
 
 export const useBoardStore = create<BoardState>()(
@@ -116,6 +117,42 @@ export const useBoardStore = create<BoardState>()(
           };
         });
       },
+
+      //move task to different column without drag and drop
+      moveTask: (taskId: string, targetColumnId: ParentType) => {
+        set((state) => {
+          const newColumns = [...state.board.columns];
+      
+          // Find the source column and task index
+          let sourceColumnIndex = -1;
+          let taskIndex = -1;
+          for (let columnIndex = 0; columnIndex < newColumns.length; columnIndex++) {
+            taskIndex = newColumns[columnIndex].tasks.findIndex((task) => task.$id === taskId);
+            if (taskIndex !== -1) {
+              sourceColumnIndex = columnIndex;
+              break;
+            }
+          }
+      
+          if (sourceColumnIndex !== -1 && taskIndex !== -1) {
+            const taskToMove = newColumns[sourceColumnIndex].tasks.splice(taskIndex, 1)[0];
+      
+            // Find the target column index
+            const targetColumnIndex = newColumns.findIndex((column) => column.id === targetColumnId);
+      
+            if (targetColumnIndex !== -1) {
+              newColumns[targetColumnIndex].tasks.push(taskToMove);
+            }
+          }
+      
+          return {
+            board: {
+              columns: newColumns,
+            },
+          };
+        });
+      },
+      
     }),
     {
       name: 'board-storage', 

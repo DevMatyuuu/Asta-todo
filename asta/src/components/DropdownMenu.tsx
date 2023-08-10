@@ -8,6 +8,8 @@ import {BsThreeDotsVertical} from 'react-icons/bs'
 import { FaTrash, FaEdit } from 'react-icons/fa'
 import { useBoardStore } from '../store/BoardStore';
 import {GoArrowSwitch} from 'react-icons/go'
+import useModalStore from "../store/ModalStore";
+import { useState } from "react";
 
 
 
@@ -20,8 +22,17 @@ type DropdownProps = {
 
 
 function DropdownMenu({task, id, onEditClick}: DropdownProps){
-  const [deleteTask] = useBoardStore((state) => [state.deleteTask])
+  const [deleteTask, moveTask] = useBoardStore((state) => [state.deleteTask, state.moveTask])
+  const modalCategoryTitle = useModalStore((state) => state.modalCategoryTitle)
+  const [selectedColumn, setSelectedColumn] = useState('');
 
+
+
+  const handleMoveTask = (targetColumnId: ParentType) => {
+    if (modalCategoryTitle && task.$id && targetColumnId) {
+      moveTask(task.$id, targetColumnId);
+    }
+  }
   
   return (
     //I created two menu, one for big and the the other one is for small screen sizes. 
@@ -43,9 +54,39 @@ function DropdownMenu({task, id, onEditClick}: DropdownProps){
                 <MenuList className="rounded-md py-3 md:ml-3 md:mt-8">
                   <MenuItem className="rounded-lg">
                     <div className="grid gap-2 justify-center">
-                      <p className="hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2">To-do</p>
-                      <p className="hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2">In-progress</p>
-                      <p className="hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2">Done</p>
+                        <p
+                        className={`hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2 cursor-pointer ${
+                          selectedColumn === 'To-do' ? 'bg-slate-200' : ''
+                        }`}
+                        onClick={() => {
+                          setSelectedColumn('To-do');
+                          handleMoveTask('To-do'); // Pass the target column id here
+                        }}
+                      >
+                        To-do
+                      </p>
+                      <p
+                        className={`hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2 cursor-pointer ${
+                          selectedColumn === 'To-do' ? 'bg-slate-200' : ''
+                        }`}
+                        onClick={() => {
+                          setSelectedColumn('In-progress');
+                          handleMoveTask('In-progress'); 
+                        }}
+                      >
+                        In-progress
+                      </p>
+                      <p
+                        className={`hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2 cursor-pointer ${
+                          selectedColumn === 'To-do' ? 'bg-slate-200' : ''
+                        }`}
+                        onClick={() => {
+                          setSelectedColumn('Done');
+                          handleMoveTask('Done'); 
+                        }}
+                      >
+                        Done
+                      </p>
                     </div>
                   </MenuItem>
                 </MenuList>
@@ -70,12 +111,62 @@ function DropdownMenu({task, id, onEditClick}: DropdownProps){
         </MenuList>
       </Menu>
     </div>
+
     <div className="md:hidden">
     <Menu placement='bottom-start'>
         <MenuHandler>
             <button><BsThreeDotsVertical/></button>
         </MenuHandler>
-        <MenuList className='grid rounded-lg text-[14px] md:py-3 py-4 shadow-md text-start bg-white md:px-2'>
+        <MenuList className='grid rounded-lg text-[14px] md:py-3 py-4 shadow-md text-start bg-white md:px-2 '>
+        <MenuItem>
+                <Menu placement="left">
+                <MenuHandler className='flex gap-2 items-center rounded-lg md:px-[9px] px-2 md:w-28 w-24 text-center md:text-[15px] hover:bg-slate-200 py-1 md:py-2'>
+                  <button className='rounded-lg md:px-[9px] px-2 md:w-24 w-24 text-center md:text-[15px] hover:bg-slate-200 py-1 md:py-2'>
+                    <GoArrowSwitch />
+                    <p>Move to</p>
+                  </button>
+                </MenuHandler>
+                <MenuList className="rounded-md py-3 md:ml-3 md:mt-8 mt-8">
+                  <MenuItem className="rounded-lg">
+                    <div className="grid gap-2 justify-center">
+                        <p
+                        className={`hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2 cursor-pointer ${
+                          selectedColumn === 'To-do' ? 'bg-slate-200' : ''
+                        }`}
+                        onClick={() => {
+                          setSelectedColumn('To-do');
+                          handleMoveTask('To-do'); // Pass the target column id here
+                        }}
+                      >
+                        To-do
+                      </p>
+                      <p
+                        className={`hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2 cursor-pointer ${
+                          selectedColumn === 'To-do' ? 'bg-slate-200' : ''
+                        }`}
+                        onClick={() => {
+                          setSelectedColumn('In-progress');
+                          handleMoveTask('In-progress'); 
+                        }}
+                      >
+                        In-progress
+                      </p>
+                      <p
+                        className={`hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2 cursor-pointer ${
+                          selectedColumn === 'To-do' ? 'bg-slate-200' : ''
+                        }`}
+                        onClick={() => {
+                          setSelectedColumn('Done');
+                          handleMoveTask('Done'); 
+                        }}
+                      >
+                        Done
+                      </p>
+                    </div>
+                  </MenuItem>
+                </MenuList>
+                </Menu>
+          </MenuItem>
           <MenuItem>
                 <button onClick={onEditClick} className='rounded-lg md:px-[9px] px-2 md:w-24 w-20 text-center md:text-[15px] hover:bg-slate-200 py-1 md:py-2'>
                   <div className="flex items-center gap-2">
