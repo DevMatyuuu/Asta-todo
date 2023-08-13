@@ -29,6 +29,7 @@ function Board() {
           setBoardState({ columns: newColumns });
         }
       } else {
+
         // Move task from one column to another
         const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
         const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
@@ -55,7 +56,7 @@ function Board() {
   
 
   return (
-    <div className={isDark ? 'bg-[#020403]' : ''}>
+    <div className={`${isDark ? 'bg-[#020403]' : ''}`}>
       <div>
         <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="board" direction="horizontal" type="column">
