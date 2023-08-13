@@ -15,7 +15,6 @@ interface BoardState {
   setUpdateTaskInput: (input: string) => void;
   updateTask: (taskId: string, title: string) => void;
   deleteTask: (taskId: string, id: ParentType) => void;
-  clearAllTask: (id: ParentType) => void;
   moveTask: (taskId: string, id: ParentType) => void;
 }
 
@@ -99,53 +98,39 @@ export const useBoardStore = create<BoardState>()(
           };
         });
       },
-
-      // Clear all tasks in the column
-      clearAllTask: (columnId: ParentType) => {
-        set((state) => {
-          const newColumns = [...state.board.columns];
-          const columnIndex = newColumns.findIndex((column) => column.id === columnId);
-      
-          if (columnIndex !== -1 && newColumns[columnIndex].tasks.length > 0) {
-            newColumns[columnIndex].tasks = [];
-          }
-      
-          return {
-            board: {
-              columns: newColumns,
-            },
-          };
-        });
-      },
  
       //move task to different column without drag and drop
-      moveTask: (taskId: string, targetColumnId: ParentType) => {
+      moveTask: (taskId: string, id: ParentType) => {
         set((state) => {
           const newColumns = [...state.board.columns];
       
-          // Find the source column and task index
-          let sourceColumnIndex = -1;
-          let taskIndex = -1;
-          for (let columnIndex = 0; columnIndex < newColumns.length; columnIndex++) {
-            taskIndex = newColumns[columnIndex].tasks.findIndex((task) => task.$id === taskId);
+          const defaultTask: Task = {
+            $id: '',
+            title: '',
+            status: 'To-do',
+          };
+          
+          let movedTask: Task = defaultTask; //assign a default value
+          
+          //find and remove task from old column
+          for (const column of newColumns) {
+            const taskIndex = column.tasks.findIndex((task) => task.$id === taskId);
             if (taskIndex !== -1) {
-              sourceColumnIndex = columnIndex;
+              movedTask = column.tasks.splice(taskIndex, 1)[0];
               break;
             }
           }
-      
-          if (sourceColumnIndex !== -1 && taskIndex !== -1) {
-            const taskToMove = newColumns[sourceColumnIndex].tasks.splice(taskIndex, 1)[0];
-      
-            // Find the target column index
-            const targetColumnIndex = newColumns.findIndex((column) => column.id === targetColumnId);
-
-            if (targetColumnIndex !== -1) {
-              taskToMove.status = targetColumnId; // Update the task's status
-              newColumns[targetColumnIndex].tasks.push(taskToMove);
+          
+          //add task to new column
+          if (movedTask !== defaultTask) { 
+            //update the status property of the moved task
+            movedTask.status = id; //add this line
+            const columnIndex = newColumns.findIndex((column) => column.id === id);
+            if (columnIndex !== -1) {
+              newColumns[columnIndex].tasks.push(movedTask);
             }
-            
           }
+          
       
           return {
             board: {
@@ -154,6 +139,7 @@ export const useBoardStore = create<BoardState>()(
           };
         });
       },
+      
       
     }),
     {
