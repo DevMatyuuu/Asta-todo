@@ -38,10 +38,11 @@ function Board() {
           const sourceTasks = [...sourceColumn.tasks];
           const [movedTask] = sourceTasks.splice(source.index, 1);
 
-          // Update parentId of the moved task
+          // Update the task's status and parent ID
           const updatedMovedTask = {
             ...movedTask,
-            parentId: destination.droppableId, // Use the destination column's ID
+            $id: movedTask.$id, // Keep the existing ID
+            status: destinationColumn.id, // Update the status to match the destination column's ID
           };
 
           const destinationTasks = [...destinationColumn.tasks];
