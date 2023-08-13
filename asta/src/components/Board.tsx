@@ -33,13 +33,20 @@ function Board() {
         // Move task from one column to another
         const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
         const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
-  
+
         if (sourceColumn && destinationColumn) {
           const sourceTasks = [...sourceColumn.tasks];
           const [movedTask] = sourceTasks.splice(source.index, 1);
+
+          // Update parentId of the moved task
+          const updatedMovedTask = {
+            ...movedTask,
+            parentId: destination.droppableId, // Use the destination column's ID
+          };
+
           const destinationTasks = [...destinationColumn.tasks];
-          destinationTasks.splice(destination.index, 0, movedTask);
-  
+          destinationTasks.splice(destination.index, 0, updatedMovedTask);
+
           const updatedColumns = board.columns.map((col) =>
             col.id === source.droppableId
               ? { ...col, tasks: sourceTasks }
@@ -47,12 +54,13 @@ function Board() {
               ? { ...col, tasks: destinationTasks }
               : col
           );
-  
+
           setBoardState({ columns: updatedColumns });
         }
       }
     }
-  };
+  }
+
   
 
   return (
