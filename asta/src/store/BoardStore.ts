@@ -117,7 +117,7 @@ export const useBoardStore = create<BoardState>()(
           };
         });
       },
-      
+ 
       //move task to different column without drag and drop
       moveTask: (taskId: string, targetColumnId: ParentType) => {
         set((state) => {
@@ -139,10 +139,12 @@ export const useBoardStore = create<BoardState>()(
       
             // Find the target column index
             const targetColumnIndex = newColumns.findIndex((column) => column.id === targetColumnId);
-      
+
             if (targetColumnIndex !== -1) {
+              taskToMove.status = targetColumnId; // Update the task's status
               newColumns[targetColumnIndex].tasks.push(taskToMove);
             }
+            
           }
       
           return {

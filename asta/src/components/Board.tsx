@@ -14,20 +14,7 @@ function Board() {
   
     if (type === 'task') {
       if (source.droppableId === destination.droppableId) {
-        // Reorder task within the same column
-        const column = board.columns.find((col) => col.id === source.droppableId);
-  
-        if (column) {
-          const newTasks = [...column.tasks];
-          const [movedTask] = newTasks.splice(source.index, 1);
-          newTasks.splice(destination.index, 0, movedTask);
-  
-          const newColumns = board.columns.map((col) =>
-            col.id === source.droppableId ? { ...col, tasks: newTasks } : col
-          );
-  
-          setBoardState({ columns: newColumns });
-        }
+        // ... (other code)
       } else {
         // Move task from one column to another
         const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
@@ -36,8 +23,18 @@ function Board() {
         if (sourceColumn && destinationColumn) {
           const sourceTasks = [...sourceColumn.tasks];
           const [movedTask] = sourceTasks.splice(source.index, 1);
+
+          console.log('Moved Task (Before):', movedTask);
+  
+          // Update the task's status
+          const updatedMovedTask = {
+            ...movedTask,
+            status: destinationColumn.id, // Update the status to match the destination column's ID
+          };
+          console.log('Updated Moved Task:', updatedMovedTask);
+
           const destinationTasks = [...destinationColumn.tasks];
-          destinationTasks.splice(destination.index, 0, movedTask);
+          destinationTasks.splice(destination.index, 0, updatedMovedTask);
   
           const updatedColumns = board.columns.map((col) =>
             col.id === source.droppableId
@@ -52,6 +49,7 @@ function Board() {
       }
     }
   };
+  
   
 
   return (
