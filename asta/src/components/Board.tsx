@@ -3,54 +3,67 @@ import { useBoardStore } from '../store/BoardStore';
 import Column from './Column';
 import { useDarkModeStore } from '../store/DarkModeStore';
 
+type boardState = {
+  columns: Column[];
+};
+
 function Board() {
   const { board, setBoardState } = useBoardStore();
   const isDark = useDarkModeStore((state) => state.isDark);
 
   const handleDragEnd = (result: DropResult) => {
     const { destination, source, type } = result;
-  
+
     if (!destination) return;
-  
+
     if (type === 'task') {
-      if (source.droppableId === destination.droppableId) {
-        // ... (other code)
+      const sourceColumnId = source.droppableId;
+      const destinationColumnId = destination.droppableId;
+
+      if (sourceColumnId === destinationColumnId) {
+        const sourceColumn = board.columns.find((col) => col.id === sourceColumnId);
+
+        if (sourceColumn) {
+          const sourceTasks = [...sourceColumn.tasks];
+          const [movedTask] = sourceTasks.splice(source.index, 1);
+          sourceTasks.splice(destination.index, 0, movedTask);
+
+          const updatedColumns = board.columns.map((col) =>
+            col.id === sourceColumnId ? { ...col, tasks: sourceTasks } : col
+          );
+
+          setBoardState({ columns: updatedColumns });
+        }
       } else {
-        // Move task from one column to another
-        const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
-        const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
-  
+        const sourceColumn = board.columns.find((col) => col.id === sourceColumnId);
+        const destinationColumn = board.columns.find((col) => col.id === destinationColumnId);
+
         if (sourceColumn && destinationColumn) {
           const sourceTasks = [...sourceColumn.tasks];
           const [movedTask] = sourceTasks.splice(source.index, 1);
 
-          console.log('Moved Task (Before):', movedTask);
-  
           // Update the task's status
           const updatedMovedTask = {
             ...movedTask,
-            status: destinationColumn.id, // Update the status to match the destination column's ID
+            status: destinationColumnId as ParentType, // Use predefined status value here
           };
-          console.log('Updated Moved Task:', updatedMovedTask);
 
-          const destinationTasks = [...destinationColumn.tasks];
-          destinationTasks.splice(destination.index, 0, updatedMovedTask);
-  
-          const updatedColumns = board.columns.map((col) =>
-            col.id === source.droppableId
-              ? { ...col, tasks: sourceTasks }
-              : col.id === destination.droppableId
-              ? { ...col, tasks: destinationTasks }
-              : col
-          );
-  
-          setBoardState({ columns: updatedColumns });
+          destinationColumn.tasks.splice(destination.index, 0, updatedMovedTask);
+
+          // Update the columns' task lists directly
+          setBoardState({
+            columns: board.columns.map((col) =>
+              col.id === sourceColumnId
+                ? sourceColumn
+                : col.id === destinationColumnId
+                ? destinationColumn
+                : col
+            ),
+          });
         }
       }
     }
   };
-  
-  
 
   return (
     <div className={isDark ? 'bg-[#020403]' : ''}>
