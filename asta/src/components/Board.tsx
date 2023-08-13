@@ -3,6 +3,7 @@ import { useBoardStore } from '../store/BoardStore';
 import Column from './Column';
 import { useDarkModeStore } from '../store/DarkModeStore';
 
+
 function Board() {
   const { board, setBoardState } = useBoardStore();
   const isDark = useDarkModeStore((state) => state.isDark);
@@ -46,21 +47,21 @@ function Board() {
   
           // Update the status of the moved task based on the index
           // You can change this logic to suit your needs
-          let newStatus;
+          let newStatus: ParentType;
           switch (destinationIndex) {
             case 0:
-              newStatus = 'todo';
+              newStatus = 'To-do';
               break;
             case 1:
-              newStatus = 'in progress';
+              newStatus = 'In-progress';
               break;
             case 2:
-              newStatus = 'done';
+              newStatus = 'Done';
               break;
             default:
-              newStatus = 'unknown';
+              newStatus = 'To-do';
           }
-          movedTask.status = newStatus as ParentType;
+          movedTask.status = newStatus;
   
           const updatedColumns = board.columns.map((col) =>
             col.id === source.droppableId
