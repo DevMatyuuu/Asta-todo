@@ -59,7 +59,7 @@ function Column({id, tasks, index}: ColumnProps) {
                                 {provided.placeholder}
                                </div>
                                <div className='justify-center flex gap-3'>
-                                    <Button  onClick={handleClearTasks} className={`${isDark ? 'bg-[#1F2022]' : 'bg-slate-400/30' }  w-[130px] disabled:cursor-not-allowed disabled:hover:bg-slate-400/30 mt-5 md:mt-5 py-0 hover:bg-slate-500/50 }`} disabled={tasks.length === 0}>
+                                    <Button  onClick={handleClearTasks} className={`${isDark ? 'bg-[#1F2022]' : 'bg-slate-400/30' }  w-[120px] disabled:cursor-not-allowed disabled:hover:bg-slate-400/30 mt-5 md:mt-5 py-0 hover:bg-slate-500/50 }`} disabled={tasks.length === 0}>
                                         <div className={` ${isDark ? 'text-white' : 'text-black'} flex items-center justify-center gap-1`}>
                                             <FaTrash /> 
                                             <p className='text-[15px]'>Clear All</p>

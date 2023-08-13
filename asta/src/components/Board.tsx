@@ -3,64 +3,80 @@ import { useBoardStore } from '../store/BoardStore';
 import Column from './Column';
 import { useDarkModeStore } from '../store/DarkModeStore';
 
-
 function Board() {
   const { board, setBoardState } = useBoardStore();
   const isDark = useDarkModeStore((state) => state.isDark);
 
   const handleDragEnd = (result: DropResult) => {
     const { destination, source, type } = result;
-
+  
     if (!destination) return;
-
+  
     if (type === 'task') {
-      const sourceColumnId = source.droppableId;
-      const destinationColumnId = destination.droppableId;
-
-      if (sourceColumnId === destinationColumnId) {
-        const sourceColumn = board.columns.find((col) => col.id === sourceColumnId);
-
-        if (sourceColumn) {
-          const sourceTasks = [...sourceColumn.tasks];
-          const [movedTask] = sourceTasks.splice(source.index, 1);
-          sourceTasks.splice(destination.index, 0, movedTask);
-
-          const updatedColumns = board.columns.map((col) =>
-            col.id === sourceColumnId ? { ...col, tasks: sourceTasks } : col
+      if (source.droppableId === destination.droppableId) {
+        // Reorder task within the same column
+        const column = board.columns.find((col) => col.id === source.droppableId);
+  
+        if (column) {
+          const newTasks = [...column.tasks];
+          const [movedTask] = newTasks.splice(source.index, 1);
+          newTasks.splice(destination.index, 0, movedTask);
+  
+          const newColumns = board.columns.map((col) =>
+            col.id === source.droppableId ? { ...col, tasks: newTasks } : col
           );
-
-          setBoardState({ columns: updatedColumns });
+  
+          setBoardState({ columns: newColumns });
         }
       } else {
-        const sourceColumn = board.columns.find((col) => col.id === sourceColumnId);
-        const destinationColumn = board.columns.find((col) => col.id === destinationColumnId);
-
+        // Move task from one column to another
+        const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
+        const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
+  
         if (sourceColumn && destinationColumn) {
           const sourceTasks = [...sourceColumn.tasks];
           const [movedTask] = sourceTasks.splice(source.index, 1);
-
-          // Update the task's status
-          const updatedMovedTask = {
-            ...movedTask,
-            status: destinationColumnId as ParentType, // Use predefined status value here
-          };
-
-          destinationColumn.tasks.splice(destination.index, 0, updatedMovedTask);
-
-          // Update the columns' task lists directly
-          setBoardState({
-            columns: board.columns.map((col) =>
-              col.id === sourceColumnId
-                ? sourceColumn
-                : col.id === destinationColumnId
-                ? destinationColumn
-                : col
-            ),
-          });
+          const destinationTasks = [...destinationColumn.tasks];
+          destinationTasks.splice(destination.index, 0, movedTask);
+  
+          // Get the index of the destination column
+          const destinationIndex = board.columns.findIndex(
+            (col) => col.id === destination.droppableId
+          );
+  
+          // Update the status of the moved task based on the index
+          // You can change this logic to suit your needs
+          let newStatus;
+          switch (destinationIndex) {
+            case 0:
+              newStatus = 'todo';
+              break;
+            case 1:
+              newStatus = 'in progress';
+              break;
+            case 2:
+              newStatus = 'done';
+              break;
+            default:
+              newStatus = 'unknown';
+          }
+          movedTask.status = newStatus as ParentType;
+  
+          const updatedColumns = board.columns.map((col) =>
+            col.id === source.droppableId
+              ? { ...col, tasks: sourceTasks }
+              : col.id === destination.droppableId
+              ? { ...col, tasks: destinationTasks }
+              : col
+          );
+  
+          setBoardState({ columns: updatedColumns });
         }
       }
     }
   };
+  
+  
 
   return (
     <div className={isDark ? 'bg-[#020403]' : ''}>
