@@ -4,7 +4,7 @@ import { Button } from '@material-tailwind/react'
 import {AiFillPlusCircle} from 'react-icons/ai'
 import useModalStore from '../store/ModalStore'
 import { useDarkModeStore } from '../store/DarkModeStore'
-import { FaTrash } from 'react-icons/fa'
+
 
 
 
@@ -19,7 +19,7 @@ type ColumnProps = {
 function Column({id, tasks, index}: ColumnProps) {
     const [setModalCategoryTitle, addModalOpen,] = useModalStore((state) => [state.setModalCategoryTitle, state.addModalOpen,])
     const isDark = useDarkModeStore((state) => state.isDark)
-    const clearModalOpen = useModalStore((state) => state.clearModalOpen)
+  
     
 
    
@@ -28,9 +28,6 @@ function Column({id, tasks, index}: ColumnProps) {
         setModalCategoryTitle(id)
     }
 
-    const handleClearTasks = () => {
-        clearModalOpen()
-    }
 
   return (
     <Draggable draggableId={id} index={index}>
