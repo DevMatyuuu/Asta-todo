@@ -29,25 +29,16 @@ function Board() {
           setBoardState({ columns: newColumns });
         }
       } else {
-
         // Move task from one column to another
         const sourceColumn = board.columns.find((col) => col.id === source.droppableId);
         const destinationColumn = board.columns.find((col) => col.id === destination.droppableId);
-
+  
         if (sourceColumn && destinationColumn) {
           const sourceTasks = [...sourceColumn.tasks];
           const [movedTask] = sourceTasks.splice(source.index, 1);
-
-          // Update the task's status and parent ID
-          const updatedMovedTask = {
-            ...movedTask,
-            $id: movedTask.$id, // Keep the existing ID
-            status: destinationColumn.id, // Update the status to match the destination column's ID
-          };
-
           const destinationTasks = [...destinationColumn.tasks];
-          destinationTasks.splice(destination.index, 0, updatedMovedTask);
-
+          destinationTasks.splice(destination.index, 0, movedTask);
+  
           const updatedColumns = board.columns.map((col) =>
             col.id === source.droppableId
               ? { ...col, tasks: sourceTasks }
@@ -55,17 +46,16 @@ function Board() {
               ? { ...col, tasks: destinationTasks }
               : col
           );
-
+  
           setBoardState({ columns: updatedColumns });
         }
       }
     }
-  }
-
+  };
   
 
   return (
-    <div className={`${isDark ? 'bg-[#020403]' : ''}`}>
+    <div className={isDark ? 'bg-[#020403]' : ''}>
       <div>
         <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="board" direction="horizontal" type="column">
