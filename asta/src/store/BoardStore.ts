@@ -104,6 +104,14 @@ export const useBoardStore = create<BoardState>()(
       clearAllTask: (columnId: ParentType) => {
         set((state) => {
           const newColumns = [...state.board.columns];
+
+          for (const column of newColumns) {
+            const taskIndex = column.tasks.findIndex((task) => task.status === columnId);
+            if (taskIndex !== -1) {
+              column.tasks[taskIndex].status = columnId;
+              break;
+            }
+          }
       
           const columnIndex = newColumns.findIndex((column) => column.id === columnId);
           if (columnIndex !== -1) {

@@ -24,9 +24,21 @@ function ClearModal() {
 
   const handleClearTask = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // Clear all tasks of the selected category and update their status
     clearAllTask(modalCategoryTitle);
-    clearModalClose(); 
-  };  
+    setBoardState((prevState) => ({
+      columns: prevState.columns.map((column) => {
+        if (column.id === modalCategoryTitle) {
+          return {
+            ...column,
+            tasks: [], // Clear all tasks
+          };
+        }
+        return column;
+      }),
+    }));
+    clearModalClose();
+  };
   return (
     <Transition appear show={isClearModalOpen} as={Fragment}>
       <Dialog as='form' onSubmit={handleClearTask} onClose={clearModalClose} className='flex absolute top-60 m-auto left-0 right-0'>
