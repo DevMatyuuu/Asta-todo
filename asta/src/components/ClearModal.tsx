@@ -12,15 +12,6 @@ function ClearModal() {
   const [clearAllTask] = useBoardStore((state) => [state.clearAllTask]);
   const isDark = useDarkModeStore((state) => state.isDark)
 
-  let title = '';
-  if (modalCategoryTitle === 'To-do' ) {
-    title = 'To-do';
-  } else if (modalCategoryTitle === 'In-progress') {
-    title = 'In-progress'
-  } else if (modalCategoryTitle === 'Done') {
-    title = 'Done'
-  }
-
 
   const handleClearTask = () => {
     clearAllTask(modalCategoryTitle);
