@@ -104,18 +104,10 @@ export const useBoardStore = create<BoardState>()(
       clearAllTask: (columnId: ParentType) => {
         set((state) => {
           const newColumns = [...state.board.columns];
-
-          for (const column of newColumns) {
-            const taskIndex = column.tasks.findIndex((task) => task.status === columnId);
-            if (taskIndex !== -1) {
-              column.tasks[taskIndex].status = columnId;
-              break;
-            }
-          }
-      
           const columnIndex = newColumns.findIndex((column) => column.id === columnId);
-          if (columnIndex !== -1) {
-            newColumns[columnIndex].tasks = []; 
+      
+          if (columnIndex !== -1 && newColumns[columnIndex].tasks.length > 0) {
+            newColumns[columnIndex].tasks = [];
           }
       
           return {
@@ -125,7 +117,7 @@ export const useBoardStore = create<BoardState>()(
           };
         });
       },
-
+      
       //move task to different column without drag and drop
       moveTask: (taskId: string, targetColumnId: ParentType) => {
         set((state) => {
