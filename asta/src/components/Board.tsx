@@ -3,9 +3,6 @@ import { useBoardStore } from '../store/BoardStore';
 import Column from './Column';
 import { useDarkModeStore } from '../store/DarkModeStore';
 
-type boardState = {
-  columns: Column[];
-};
 
 function Board() {
   const { board, setBoardState } = useBoardStore();
