@@ -39,10 +39,10 @@ function AddModal() {
     <Transition show={isAddModalOpen} as={Fragment}>
       <Dialog  as='form' onSubmit={handleAddTask} onClose={addModalClose} className='flex absolute top-60 m-auto left-0 right-0 '>
         <div data-aos='fade-in' className="fixed inset-0 bg-black/30 bg-opacity-25" />
-          <Dialog.Panel  className={`${isDark ? 'bg-[#1F2022]' : 'bg-slate-300'} transition-all mx-auto max-w-md transform overflow-hidden p-6 rounded-2xl shadow-xl align-middle md:w-full w-96`}>
-            <Dialog.Title className={`${isDark ? 'text-white' : 'text-black'} text-center md:mb-5 mb-3 text-[18px]`}>{title}</Dialog.Title>
+          <Dialog.Panel  className={`${isDark ? 'bg-[#1F2022]' : 'bg-slate-300'} transition-all mx-auto max-w-lg transform overflow-hidden p-6 rounded-2xl shadow-xl align-middle w-[90%]`}>
+            <Dialog.Title className={`${isDark ? 'text-white' : 'text-black'} text-center lg:mb-5 mb-3 text-[18px]`}>{title}</Dialog.Title>
             <div>
-                <input className='rounded-lg md:px-4 md:py-2 w-full md:mb-5 mb-5 px-3 py-2' type='text' value={addTaskInput} onChange={(e) => setAddTaskInput(e.target.value)} placeholder='What is your task?'/>
+                <input className='rounded-lg lg:px-4 lg:py-2 w-full lg:mb-5 mb-5 px-3 py-2' type='text' value={addTaskInput} onChange={(e) => setAddTaskInput(e.target.value)} placeholder='What is your task?'/>
             </div>
             <div className='flex gap-5 float-right'>
                 <Button onClick={addModalClose} className='bg-slate-700/40 hover:bg-slate-400  px-4'>

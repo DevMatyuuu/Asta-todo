@@ -6,24 +6,17 @@ import DarkModeToggle from './DarkModeToggle';
 function Header() {
   const isDark = useDarkModeStore((state) => state.isDark);
   return (
-    <header
-      className={
-        isDark ? 'bg-[#020403]' : ''}
-    >
-      <div className="flex md:ml-[152px] md:pt-16 md:mt-0 md:pb-16 mb-5 pt-0 h-20 w-28 ml-5 mt-0 md:mb-10 text-start justify-between">
-        <div className="md:mt-0 mt-10 md:ml-0 ml-2">
-          <img
-            src={!isDark ? logo : logowhite}
-            alt="asta"
-            className="h-14 md:h-28 md:w-36 max-w-[500px] mx-auto md:mx-0"
-          />
-        </div>
-        <div className="absolute md:right-32 right-6 top-6">
-          <DarkModeToggle />
-        </div>
+    <header className={`flex justify-center pt-10 sm:pt-10px lg:pt-16 xl:pt-16 ${isDark ? 'bg-[#020403]' : ''}`}>
+      <div className='flex items-center justify-between max-w-[1400px] w-full px-5 sm:px-5'>
+        <img src={!isDark ? logo : logowhite} alt="asta" className="h-14 lg:h-24 lg:w-28" />
+        <DarkModeToggle />
       </div>
     </header>
   );
 }
 
 export default Header;
+
+
+
+

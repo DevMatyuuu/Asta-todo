@@ -37,25 +37,25 @@ function DropdownMenu({task, id, onEditClick}: DropdownProps){
   return (
     //I created two menu, one for big and the the other one is for small screen sizes. 
     <div>
-      <div className="hidden md:flex">
+      <div className="hidden lg:flex">
         <Menu placement='bottom' >
         <MenuHandler>
             <button><BsThreeDotsVertical/></button>
         </MenuHandler>
-        <MenuList className='grid rounded-lg text-[14px] md:py-3 py-4 shadow-md text-start bg-white'>
+        <MenuList className='grid rounded-lg text-[14px] lg:py-3 py-4 shadow-lg text-start bg-white'>
         <MenuItem>
                 <Menu placement="right">
-                <MenuHandler className='flex gap-2 items-center rounded-lg md:px-[9px] px-2 md:w-28 w-20 text-center md:text-[15px] hover:bg-slate-200 py-1 md:py-2'>
+                <MenuHandler className='flex gap-2 items-center rounded-lg lg:px-[9px] px-2 lg:w-28 w-20 text-center lg:text-[15px] hover:bg-slate-200 py-1 lg:py-2'>
                   <button className="flex items-center">
                     <GoArrowSwitch />
                     <p>Move to</p>
                   </button>
                 </MenuHandler>
-                <MenuList className="rounded-md py-3 md:ml-3 md:mt-8">
+                <MenuList className="rounded-lg py-3 lg:ml-3 lg:mt-8">
                   <MenuItem className="rounded-lg">
                     <div className="grid gap-2 justify-center">
                         <p
-                        className={`hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2 cursor-pointer ${
+                        className={`hover:bg-slate-200 lg:w-24 rounded-lg py-1 pl-2 cursor-pointer ${
                           selectedColumn === 'To-do' ? 'bg-slate-200' : ''
                         }`}
                         onClick={() => {
@@ -66,7 +66,7 @@ function DropdownMenu({task, id, onEditClick}: DropdownProps){
                         To-do
                       </p>
                       <p
-                        className={`hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2 cursor-pointer ${
+                        className={`hover:bg-slate-200 lg:w-24 rounded-lg py-1 pl-2 cursor-pointer ${
                           selectedColumn === 'To-do' ? 'bg-slate-200' : ''
                         }`}
                         onClick={() => {
@@ -77,7 +77,7 @@ function DropdownMenu({task, id, onEditClick}: DropdownProps){
                         In-progress
                       </p>
                       <p
-                        className={`hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2 cursor-pointer ${
+                        className={`hover:bg-slate-200 lg:w-24 rounded-lg py-1 pl-2 cursor-pointer ${
                           selectedColumn === 'To-do' ? 'bg-slate-200' : ''
                         }`}
                         onClick={() => {
@@ -93,7 +93,7 @@ function DropdownMenu({task, id, onEditClick}: DropdownProps){
                 </Menu>
           </MenuItem>
           <MenuItem>
-                <button onClick={onEditClick} className='rounded-lg md:px-[9px] px-2 md:w-28 w-20 text-center md:text-[15px] hover:bg-slate-200 py-1 md:py-2'>
+                <button onClick={onEditClick} className='rounded-lg lg:px-[9px] px-2 lg:w-28 w-20 text-center lg:text-[15px] hover:bg-slate-200 py-1 lg:py-2'>
                   <div className="flex items-center gap-2">
                     <FaEdit/>
                     <p>Edit</p>
@@ -101,7 +101,7 @@ function DropdownMenu({task, id, onEditClick}: DropdownProps){
                 </button>
           </MenuItem>
           <MenuItem >
-              <button onClick={() => deleteTask(task.$id, id)} className='rounded-lg px-[8px] md:w-28 text-center md:text-[15px] hover:bg-slate-200 py-1 md:py-2'>
+              <button onClick={() => deleteTask(task.$id, id)} className='rounded-lg px-[8px] lg:w-28 text-center lg:text-[15px] hover:bg-slate-200 py-1 lg:py-2'>
                 <div className="flex items-center gap-2">
                   <FaTrash />
                   <p>Delete</p>
@@ -112,25 +112,25 @@ function DropdownMenu({task, id, onEditClick}: DropdownProps){
       </Menu>
     </div>
 
-    <div className="md:hidden">
+    <div className="lg:hidden">
     <Menu placement='bottom-start'>
         <MenuHandler>
             <button><BsThreeDotsVertical/></button>
         </MenuHandler>
-        <MenuList className='grid rounded-lg text-[14px] md:py-3 py-4 shadow-md text-start bg-white md:px-2 '>
+        <MenuList className='grid rounded-lg text-[14px] lg:py-3 py-4 shadow-lg text-start bg-white lg:px-2 '>
         <MenuItem>
                 <Menu placement="left">
-                <MenuHandler className='flex gap-2 items-center rounded-lg md:px-[9px] px-2 md:w-28 w-24 text-center md:text-[15px] hover:bg-slate-200 py-1 md:py-2'>
-                  <button className='rounded-lg md:px-[9px] px-2 md:w-24 w-24 text-center md:text-[15px] hover:bg-slate-200 py-1 md:py-2'>
+                <MenuHandler className='flex gap-2 items-center rounded-lg lg:px-[9px] px-2 lg:w-28 w-24 text-center lg:text-[15px] hover:bg-slate-200 py-1 lg:py-2'>
+                  <button className='rounded-lg lg:px-[9px] px-2 lg:w-24 w-24 text-center lg:text-[15px] hover:bg-slate-200 py-1 lg:py-2'>
                     <GoArrowSwitch />
                     <p>Move to</p>
                   </button>
                 </MenuHandler>
-                <MenuList className="rounded-md py-3 md:ml-3 md:mt-8 mt-8">
+                <MenuList className="rounded-lg py-3 lg:ml-3 lg:mt-8 mt-8">
                   <MenuItem className="rounded-lg">
                     <div className="grid gap-2 justify-center">
                         <p
-                        className={`hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2 cursor-pointer ${
+                        className={`hover:bg-slate-200 lg:w-24 rounded-lg py-1 pl-2 cursor-pointer ${
                           selectedColumn === 'To-do' ? 'bg-slate-200' : ''
                         }`}
                         onClick={() => {
@@ -141,7 +141,7 @@ function DropdownMenu({task, id, onEditClick}: DropdownProps){
                         To-do
                       </p>
                       <p
-                        className={`hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2 cursor-pointer ${
+                        className={`hover:bg-slate-200 lg:w-24 rounded-lg py-1 pl-2 cursor-pointer ${
                           selectedColumn === 'To-do' ? 'bg-slate-200' : ''
                         }`}
                         onClick={() => {
@@ -152,7 +152,7 @@ function DropdownMenu({task, id, onEditClick}: DropdownProps){
                         In-progress
                       </p>
                       <p
-                        className={`hover:bg-slate-200 md:w-24 rounded-md py-1 pl-2 cursor-pointer ${
+                        className={`hover:bg-slate-200 lg:w-24 rounded-lg py-1 pl-2 cursor-pointer ${
                           selectedColumn === 'To-do' ? 'bg-slate-200' : ''
                         }`}
                         onClick={() => {
@@ -168,7 +168,7 @@ function DropdownMenu({task, id, onEditClick}: DropdownProps){
                 </Menu>
           </MenuItem>
           <MenuItem>
-                <button onClick={onEditClick} className='rounded-lg md:px-[9px] px-2 md:w-24 w-20 text-center md:text-[15px] hover:bg-slate-200 py-1 md:py-2'>
+                <button onClick={onEditClick} className='rounded-lg lg:px-[9px] px-2 lg:w-24 w-20 text-center lg:text-[15px] hover:bg-slate-200 py-1 lg:py-2'>
                   <div className="flex items-center gap-2">
                     <FaEdit/>
                     <p>Edit</p>
@@ -176,7 +176,7 @@ function DropdownMenu({task, id, onEditClick}: DropdownProps){
                 </button>
           </MenuItem>
           <MenuItem >
-              <button onClick={() => deleteTask(task.$id, id)} className='rounded-lg px-[8px] w-20 text-center md:text-[15px] hover:bg-slate-200 py-1 md:py-2'>
+              <button onClick={() => deleteTask(task.$id, id)} className='rounded-lg px-[8px] w-20 text-center lg:text-[15px] hover:bg-slate-200 py-1 lg:py-2'>
                 <div className="flex items-center gap-2">
                   <FaTrash />
                   <p>Delete</p>
