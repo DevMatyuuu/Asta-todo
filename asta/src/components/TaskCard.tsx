@@ -5,6 +5,7 @@ import { useBoardStore } from '../store/BoardStore';
 import { useEffect, useRef } from 'react';
 import { useDarkModeStore } from '../store/DarkModeStore';
 import { BsXCircleFill } from 'react-icons/bs'
+import { Typography } from '@material-tailwind/react';
 
 
 
@@ -66,7 +67,8 @@ function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}:
     <div {...draggableProps} {...dragHandleProps} ref={innerRef} className={`${isDark ? 'bg-[#1F2022] hover:bg-slate-500/20' : 'bg-white/60  hover:bg-slate-500/20'} w-[95%] mt-10 py-1 mx-auto rounded-lg space-y-2 px-5 drop-shadow-md`}>
       <div className='flex justify-between items-center py-3'>
       {!isUpdatingSpecificTask ? (
-          <p className={`${isDark ? 'text-white' : 'text-black'} max-w-[300px]`}>{task.title}</p>
+          <Typography className={`${isDark ? 'text-white' : 'text-black'} max-w-[90%] break-all`}>{task.title}</Typography>
+
         ) : (
           <form onSubmit={handleUpdateTask}>
             <input ref={inputRef} value={updateTaskInput} onChange={(e) => setUpdateTaskInput(e.target.value)} onBlur={handleInputBlur} className=':max-w-[300px] :w-[300px] :h-10 rounded-lg :pl-3' />
