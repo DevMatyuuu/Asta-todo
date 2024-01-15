@@ -7,8 +7,6 @@ import { useDarkModeStore } from '../store/DarkModeStore';
 import { BsXCircleFill } from 'react-icons/bs'
 import { Typography } from '@material-tailwind/react';
 
-
-
 type TaskCardProps = {
   task: Task;
   index: number;
@@ -17,7 +15,6 @@ type TaskCardProps = {
   draggableProps: DraggableProvidedDraggableProps;
   dragHandleProps: DraggableProvidedDragHandleProps | null | undefined;
 }
-
 
 
 function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}: TaskCardProps) {
@@ -71,9 +68,9 @@ function TaskCard({task, index, id, innerRef, dragHandleProps, draggableProps,}:
 
         ) : (
           <form onSubmit={handleUpdateTask}>
-            <input ref={inputRef} value={updateTaskInput} onChange={(e) => setUpdateTaskInput(e.target.value)} onBlur={handleInputBlur} className=':max-w-[300px] :w-[300px] :h-10 rounded-lg :pl-3' />
-            <div className='flex items-center gap-2 absolute :top-7 :right-24'>
-              <BsXCircleFill size={18} />
+            <input ref={inputRef} value={updateTaskInput} onChange={(e) => setUpdateTaskInput(e.target.value)} onBlur={handleInputBlur} className='w-[320px] lg:w-[330px] h-auto pl-4 pr-12 py-2 rounded-lg break-all' />
+            <div className='absolute top-[28px] right-[80px] md:right-[65px] hover:text-red-700'>
+              <BsXCircleFill size={18}/>
             </div>
           </form>
           )}
